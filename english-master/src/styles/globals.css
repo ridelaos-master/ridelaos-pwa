@@ -1,0 +1,12 @@
+@layer base {
+  body {
+    @apply bg-rl-bg min-h-screen min-w-[320px] m-0 font-sans;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
