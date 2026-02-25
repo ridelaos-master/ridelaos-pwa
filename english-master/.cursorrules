@@ -1,0 +1,6 @@
+[프로젝트 코딩 규칙]
+- 기술 스택: React 18, TypeScript, Tailwind CSS, Zustand (상태관리)
+- 백엔드/DB: Supabase
+- 핵심 플로우: 관리자 큐레이션(Track A)과 사용자 유튜브 URL 입력(Track B)을 평행하게 지원하는 하이브리드 구조.
+- UI/UX 규칙: 모바일 세로 뷰 최적화. 버튼 클릭 등 인터랙션 필수.
+- 모든 컴포넌트는 src/components, 페이지는 src/pages에 분리해서 작성.
