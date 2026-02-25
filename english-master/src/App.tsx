@@ -1,27 +1,10 @@
-import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
-import VocabularyPage from './pages/VocabularyPage';
-import LearnStep3Page from './pages/LearnStep3Page';
-import { useVocabularyStore } from './store/vocabularyStore';
-
 function App() {
-  const loadVocabulary = useVocabularyStore((s) => s.loadVocabulary);
-  useEffect(() => {
-    loadVocabulary();
-  }, [loadVocabulary]);
-
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="vocabulary" element={<VocabularyPage />} />
-        </Route>
-        <Route path="/learn/step3" element={<LearnStep3Page />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="min-h-screen bg-[#F5F5F5]">
+      <main className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-semibold text-[#1A3A2A]">Ride Laos</h1>
+      </main>
+    </div>
   );
 }
 

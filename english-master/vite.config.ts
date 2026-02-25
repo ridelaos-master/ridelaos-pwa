@@ -10,13 +10,16 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
-        name: 'English Master',
-        short_name: 'English Master',
-        description: '하이브리드 영어 학습 PWA',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        name: 'Ride Laos',
+        short_name: 'Ride Laos',
+        description: '라오스 오토바이 라이딩 투어 예약',
+        theme_color: '#1A3A2A',
+        background_color: '#F5F5F5',
         display: 'standalone',
         orientation: 'portrait',
+        scope: '/',
+        start_url: '/',
+        id: 'https://ridelaos.com/',
         icons: [
           {
             src: 'pwa-192x192.png',
