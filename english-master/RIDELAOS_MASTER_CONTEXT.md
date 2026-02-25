@@ -128,7 +128,7 @@ Vercel 환경변수:  Vercel 대시보드 > ridelaos-pwa > Settings > Env Variab
 
 필요한 키 목록:
 VITE_SUPABASE_URL
-VITE_SUPABASE_ANON_KEY
+VITE_SUPABASE_ANON_KEY:sb_publishable_eoxOvefbnBfw5eQw9ttl9Q_vgCMK8Vq
 VITE_KAKAO_APP_KEY          (JavaScript 키)
 VITE_MAPBOX_TOKEN
 KAKAO_REST_API_KEY          (서버용)
@@ -147,7 +147,7 @@ POSTHOG_API_KEY
 GitHub:      https://github.com/[계정]/ridelaos-pwa  (Private)
 Vercel:      https://ridelaos-pwa.vercel.app
 Production:  https://ridelaos.com   ← Sprint 6 후 연결
-Supabase:    https://[프로젝트ID].supabase.co
+Supabase:    https://yljvrlzlxcgmlxmmjgcg.supabase.co
 카카오채널:   http://pf.kakao.com/_anAqX
 
 ---
@@ -180,9 +180,9 @@ Sprint 6  런칭               ⬜ 대기  (18주차)
 - [x] P-03 카카오 로그인 설정
 - [x] P-04 카카오톡 채널 개설
 - [ ] P-05 카카오페이 글로벌 가맹점 신청 ← 가장 먼저!
-- [ ] P-06 Supabase 프로젝트 생성
-- [ ] P-07 GitHub 레포지토리 생성 (ridelaos-pwa)
-- [ ] P-08 Vercel 프로젝트 연결
+- [x] P-06 Supabase 프로젝트 생성
+- [x] P-07 GitHub 레포지토리 생성 (ridelaos-pwa)
+- [x] P-08 Vercel 프로젝트 연결
 - [ ] P-09 Mapbox API 키 발급
 - [ ] P-10 타켁·팍세 파트너 계약 착수
 - [ ] P-11 콘텐츠 준비 착수
