@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
-import MainLayout from './components/MainLayout';
+import { MainLayout } from './components/layout';
 import RideHomePage from './pages/RideHomePage';
 import CoursesPage from './pages/CoursesPage';
 import CourseDetailPage from './pages/CourseDetailPage';
