@@ -1,4 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+/**
+ * Tailwind v4 with @tailwindcss/postcss uses CSS-first config.
+ * Design tokens are in src/index.css (@theme). This file is kept for
+ * content hints and tooling; @tailwindcss/postcss may use it for content paths.
+ * @type {import('tailwindcss').Config}
+ */
 export default {
   content: [
     './index.html',

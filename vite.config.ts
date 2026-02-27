@@ -8,11 +8,11 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
         name: 'Ride Laos',
-        short_name: 'Ride Laos',
-        description: '라오스 오토바이 라이딩 투어 예약',
+        short_name: 'RideLaos',
+        description: '라오스 오토바이 투어 예약',
         theme_color: '#1A3A2A',
         background_color: '#F5F5F5',
         display: 'standalone',
@@ -37,6 +37,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api\//],
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB (임시 아이콘 대용, 추후 아이콘 압축 권장)
       },
     }),
   ],

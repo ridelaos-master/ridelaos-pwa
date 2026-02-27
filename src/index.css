@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Ride Laos design system (RIDELAOS_MASTER_CONTEXT.md) */
+@theme {
+  /* Primary / Secondary / Accent */
+  --color-rl-green: #1a3a2a;
+  --color-rl-green-mid: #2d6a4f;
+  --color-rl-orange: #f4a261;
+  /* Semantic */
+  --color-rl-success: #d8f3dc;
+  --color-rl-error: #fadbd8;
+  --color-rl-bg: #f5f5f5;
+  /* Shadows & radius */
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --radius-card: 16px;
+  --radius-btn: 8px;
+  /* Font */
+  --font-sans: Arial, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+}
