@@ -13,11 +13,13 @@ export interface TourDate {
 }
 
 async function fetchTourDates(courseId: string): Promise<TourDate[]> {
+  const today = new Date().toISOString().slice(0, 10)
   const { data, error } = await supabase
     .from('tour_dates')
     .select('*')
     .eq('course_id', courseId)
     .eq('status', 'open')
+    .gte('departure_date', today)
     .order('departure_date')
 
   if (error) throw error
