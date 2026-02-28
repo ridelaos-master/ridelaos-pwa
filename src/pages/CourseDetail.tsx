@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useCourse } from '../hooks/useCourses'
 import { useTourDates, type TourDate } from '../hooks/useTourDates'
+import { MapboxMap } from '../components/MapboxMap'
 import { supabase } from '../lib/supabase'
 
 /* ----- Helpers ----- */
@@ -268,6 +269,11 @@ export function CourseDetail() {
           duration_days={course.duration_days}
           min_pax={course.min_pax}
           price_krw={course.price_krw}
+        />
+
+        <MapboxMap
+          courseId={id!}
+          className="mt-4 h-64 w-full rounded-card overflow-hidden"
         />
 
         {course.description_ko && (

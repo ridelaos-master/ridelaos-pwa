@@ -40,6 +40,24 @@ export default defineConfig({
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api\//],
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB (임시 아이콘 대용, 추후 아이콘 압축 권장)
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/api\.mapbox\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'mapbox-tiles',
+              expiration: {
+                maxEntries: 500,
+                maxAgeSeconds: 7 * 24 * 60 * 60,
+              },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/events\.mapbox\.com\/.*/i,
+            handler: 'NetworkOnly',
+          },
+        ],
       },
     }),
   ],
