@@ -39,6 +39,31 @@ async function fetchCourse(id: string): Promise<Course | null> {
   return data as Course | null
 }
 
+/** 홈 추천 코스용 필드만 조회 (상위 3개) */
+export type FeaturedCourseRow = Pick<
+  Course,
+  'id' | 'name_ko' | 'difficulty' | 'duration_days' | 'price_krw'
+>
+
+async function fetchFeaturedCourses(): Promise<FeaturedCourseRow[]> {
+  const { data, error } = await supabase
+    .from('courses')
+    .select('id, name_ko, difficulty, duration_days, price_krw')
+    .limit(3)
+    .order('name_ko')
+
+  if (error) throw error
+  return (data ?? []) as FeaturedCourseRow[]
+}
+
+/** 홈 추천 코스 3개 조회 */
+export function useFeaturedCourses() {
+  return useQuery<FeaturedCourseRow[]>({
+    queryKey: ['courses', 'featured'],
+    queryFn: fetchFeaturedCourses,
+  })
+}
+
 /** 전체 코스 목록 조회 */
 export function useCourses() {
   return useQuery<Course[]>({
