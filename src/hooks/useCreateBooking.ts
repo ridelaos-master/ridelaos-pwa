@@ -14,8 +14,8 @@ export interface CreateBookingInput {
 export function useCreateBooking() {
   return useMutation({
     mutationFn: async (input: CreateBookingInput) => {
-      const { data, error } = await supabase
-        .from('bookings')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- DB 타입은 CLI 생성 전 임시 any 처리
+      const { data, error } = await (supabase.from('bookings') as any)
         .insert({
           tour_date_id: input.tourDateId,
           user_id: null,

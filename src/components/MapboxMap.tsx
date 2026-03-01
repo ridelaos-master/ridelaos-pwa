@@ -95,9 +95,10 @@ export function MapboxMap({ courseId, className }: MapboxMapProps) {
             map.addSource('route', {
               type: 'geojson',
               data: {
-                type: 'Feature',
+                type: 'Feature' as const,
+                properties: {},
                 geometry: {
-                  type: 'LineString',
+                  type: 'LineString' as const,
                   coordinates: coords,
                 },
               },

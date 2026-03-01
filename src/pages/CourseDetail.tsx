@@ -201,10 +201,6 @@ export function CourseDetail() {
   const navigate = useNavigate()
   const tourDatesRef = useRef<HTMLElement>(null)
 
-  const handleScrollToDates = () => {
-    tourDatesRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   const { data: course, isLoading: courseLoading, isError: courseError } = useCourse(id)
   const { data: tourDates = [], isLoading: datesLoading, isError: datesError } = useTourDates(id)
   const { data: reviews = [], isLoading: reviewsLoading } = useQuery({

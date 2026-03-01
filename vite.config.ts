@@ -42,7 +42,7 @@ export default defineConfig(({ mode }) => {
             console.log('[Proxy] →', req.method, req.url)
             console.log('[Proxy] Authorization:', `SECRET_KEY ${kakaoSecret.substring(0, 8)}...`)
           })
-          proxy.on('proxyRes', (proxyRes, req, res) => {
+          proxy.on('proxyRes', (proxyRes, _req, _res) => {
             console.log('[Proxy] ← Status:', proxyRes.statusCode)
             let body = ''
             proxyRes.on('data', (chunk) => { body += chunk })
