@@ -171,7 +171,7 @@ function TourDateCard({
         type="button"
         disabled={isClosed}
         onClick={() => onReserve(date.id)}
-        className="shrink-0 rounded-btn bg-rl-orange px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+        className="shrink-0 rounded-btn bg-rl-orange px-4 py-2 text-sm font-bold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
       >
         예약하기
       </button>
@@ -199,10 +199,14 @@ function ReviewRow({ review }: { review: Review }) {
 export function CourseDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const tourDatesRef = useRef<HTMLDivElement>(null)
+  const tourDatesRef = useRef<HTMLElement>(null)
+
+  const handleScrollToDates = () => {
+    tourDatesRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   const { data: course, isLoading: courseLoading, isError: courseError } = useCourse(id)
-  const { data: tourDates = [], isLoading: datesLoading } = useTourDates(id)
+  const { data: tourDates = [], isLoading: datesLoading, isError: datesError } = useTourDates(id)
   const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
     queryKey: ['reviews', id],
     queryFn: () => fetchReviews(id!),
@@ -218,10 +222,6 @@ export function CourseDetail() {
     reviews.length > 0
       ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
       : null
-
-  const handleScrollToDates = () => {
-    tourDatesRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
 
   if (courseLoading && !course) {
     return (
@@ -262,7 +262,7 @@ export function CourseDetail() {
         onBack={() => navigate(-1)}
       />
 
-      <div className="px-4">
+      <div className="px-4 pb-8">
         <CourseBasicInfo
           name={course.name_ko}
           distance_km={course.distance_km}
@@ -271,10 +271,12 @@ export function CourseDetail() {
           price_krw={course.price_krw}
         />
 
-        <MapboxMap
-          courseId={id!}
-          className="mt-4 h-64 w-full rounded-card overflow-hidden"
-        />
+        <div className="relative z-0">
+          <MapboxMap
+            courseId={id!}
+            className="mt-4 h-64 w-full rounded-card overflow-hidden"
+          />
+        </div>
 
         {course.description_ko && (
           <section className="mt-4 rounded-card bg-white p-4 shadow-card">
@@ -296,12 +298,17 @@ export function CourseDetail() {
               <div className="h-14 animate-pulse rounded-btn bg-gray-200" />
             </div>
           )}
-          {!datesLoading && tourDates.length === 0 && (
+          {!datesLoading && datesError && (
+            <p className="mt-3 text-sm text-red-500">
+              날짜 정보를 불러오지 못했습니다. 새로고침 해주세요.
+            </p>
+          )}
+          {!datesLoading && !datesError && tourDates.length === 0 && (
             <p className="mt-3 text-sm text-gray-500">
               현재 예약 가능한 날짜가 없습니다
             </p>
           )}
-          {!datesLoading && tourDates.length > 0 && (
+          {!datesLoading && !datesError && tourDates.length > 0 && (
             <div className="mt-3 space-y-2">
               {tourDates.map((date) => (
                 <TourDateCard
@@ -337,18 +344,6 @@ export function CourseDetail() {
             </div>
           )}
         </section>
-      </div>
-
-      <div className="fixed bottom-20 left-0 right-0 px-4">
-        <div className="mx-auto max-w-[480px]">
-          <button
-            type="button"
-            onClick={handleScrollToDates}
-            className="w-full rounded-btn bg-rl-orange py-3 font-bold text-white transition hover:opacity-90"
-          >
-            예약하기 →
-          </button>
-        </div>
       </div>
     </div>
   )

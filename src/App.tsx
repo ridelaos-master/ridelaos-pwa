@@ -23,13 +23,13 @@ function App() {
       <ErrorBoundary>
         <Routes>
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/booking/:dateId" element={<Booking />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/booking-complete" element={<BookingComplete />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<CourseList />} />
             <Route path="/courses/:id" element={<CourseDetail />} />
-            <Route path="/booking/:dateId" element={<Booking />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/booking/complete" element={<BookingComplete />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/safety" element={<Safety />} />
           </Route>

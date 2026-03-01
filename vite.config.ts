@@ -1,10 +1,64 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// api/ 폴더는 Vercel Serverless 전용 — Vite 변환/감시 제외
+function excludeApiFromVite() {
+  return {
+    name: 'exclude-api',
+    resolveId(id: string) {
+      if (id.startsWith('api/') || id.includes('/api/')) {
+        return { id, external: true }
+      }
+      return null
+    },
+  }
+}
+
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  const kakaoSecret = env.KAKAO_PAY_SECRET ?? ''
+
+  return {
+  build: {
+    rollupOptions: {
+      external: [/^api\//],
+    },
+  },
+  server: {
+    watch: {
+      ignored: ['**/api/**'],
+    },
+    proxy: {
+      '/kakaopay': {
+        target: 'https://open-api.kakaopay.com',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/kakaopay/, ''),
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq, req) => {
+            proxyReq.setHeader('Authorization', `SECRET_KEY ${kakaoSecret}`)
+            console.log('[Proxy] →', req.method, req.url)
+            console.log('[Proxy] Authorization:', `SECRET_KEY ${kakaoSecret.substring(0, 8)}...`)
+          })
+          proxy.on('proxyRes', (proxyRes, req, res) => {
+            console.log('[Proxy] ← Status:', proxyRes.statusCode)
+            let body = ''
+            proxyRes.on('data', (chunk) => { body += chunk })
+            proxyRes.on('end', () => {
+              console.log('[Proxy] ← Body:', body)
+            })
+          })
+          proxy.on('error', (err) => {
+            console.log('[Proxy] Error:', err.message)
+          })
+        },
+      },
+    },
+  },
   plugins: [
+    excludeApiFromVite(),
     react(),
     VitePWA({
       registerType: 'autoUpdate',
@@ -61,4 +115,5 @@ export default defineConfig({
       },
     }),
   ],
+  }
 })

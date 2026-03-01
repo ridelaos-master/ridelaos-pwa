@@ -12,6 +12,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
 /**
  * Database type – 기본 틀.
  * 나중에 Supabase CLI로 생성: npx supabase gen types typescript
+ *
+ * bookings INSERT: anon 사용자 허용이 필요하면 Supabase SQL Editor에서
+ * supabase/bookings_rls_anon_insert.sql 실행
  */
 export interface Database {
   public: {
