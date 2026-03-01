@@ -11,7 +11,7 @@ import { Booking } from './pages/Booking'
 import { Payment } from './pages/Payment'
 import { BookingComplete } from './pages/BookingComplete'
 import { MyPage } from './pages/MyPage'
-import { Safety } from './pages/Safety'
+import Safety from './pages/Safety'
 
 function App() {
   useEffect(() => {
