@@ -1,13 +1,30 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CheckCircle2, ChevronLeft } from 'lucide-react'
+import { usePushNotification } from '../hooks/usePushNotification'
 
 export function BookingComplete() {
   const navigate = useNavigate()
+  const { scheduleBookingReminders, isEnabled } = usePushNotification()
 
   const bookingId = sessionStorage.getItem('bookingId') ?? ''
   const totalPrice = Number(sessionStorage.getItem('totalPrice') ?? 0)
+  const courseName = sessionStorage.getItem('courseName') ?? ''
+  const departureDate = sessionStorage.getItem('departureDate') ?? ''
+
   const bookingIdShort = bookingId ? bookingId.slice(0, 8) : 'N/A'
   const formattedPrice = totalPrice.toLocaleString('ko-KR')
+
+  // S4-07: 예약 완료 시 D-7, D-1 알림 스케줄링
+  useEffect(() => {
+    if (isEnabled && bookingId && courseName && departureDate) {
+      scheduleBookingReminders({
+        bookingId,
+        courseName,
+        departureDate,
+      })
+    }
+  }, []) // 마운트 시 1회만
 
   return (
     <div className="mx-auto flex min-h-screen max-w-[480px] flex-col bg-rl-bg font-sans text-rl-green">
@@ -30,6 +47,7 @@ export function BookingComplete() {
       {/* 본문 */}
       <main className="flex flex-1 flex-col items-center justify-center px-4 pb-32">
         <CheckCircle2 className="h-16 w-16 text-rl-green" />
+
         <h2 className="mt-4 text-xl font-bold text-rl-green">
           예약이 완료되었습니다!
         </h2>

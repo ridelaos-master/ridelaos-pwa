@@ -1,3 +1,4 @@
+import NotificationBanner from '../components/NotificationBanner'
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useFeaturedCourses, type FeaturedCourseRow } from '../hooks/useCourses'
@@ -303,6 +304,7 @@ export function Home() {
   return (
     <div className="space-y-6 bg-rl-bg">
       <HeroBanner />
+      <NotificationBanner />
       <FeaturedCourses />
       <NoticeBanner />
     </div>
