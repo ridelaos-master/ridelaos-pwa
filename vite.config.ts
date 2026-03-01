@@ -96,13 +96,27 @@ export default defineConfig(({ mode }) => {
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB (임시 아이콘 대용, 추후 아이콘 압축 권장)
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/api\.mapbox\.com\/.*/i,
+            // S4-04-C: 온라인 자동 캐싱 (브라우징 중 자동 저장)
+            urlPattern: /^https:\/\/api\.mapbox\.com\/styles\/v1\//i,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'mapbox-tiles',
+              cacheName: 'mapbox-tiles-auto',
               expiration: {
-                maxEntries: 500,
-                maxAgeSeconds: 7 * 24 * 60 * 60,
+                maxEntries: 300,
+                maxAgeSeconds: 7 * 24 * 60 * 60, // 7일
+              },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            // S4-04-C: Mapbox 폰트/스프라이트 캐싱
+            urlPattern: /^https:\/\/api\.mapbox\.com\/(fonts|sprites)\//i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'mapbox-assets',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30일
               },
               cacheableResponse: { statuses: [0, 200] },
             },

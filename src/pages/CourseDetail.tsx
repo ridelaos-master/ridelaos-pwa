@@ -4,7 +4,9 @@ import { useQuery } from '@tanstack/react-query'
 import { useCourse } from '../hooks/useCourses'
 import { useTourDates, type TourDate } from '../hooks/useTourDates'
 import { MapboxMap } from '../components/MapboxMap'
+import OfflineMapManager from '../components/OfflineMapManager'
 import { supabase } from '../lib/supabase'
+import type { CourseWaypoint } from '../hooks/useOfflineMap'
 
 /* ----- Helpers ----- */
 function formatDeparture(dateStr: string): string {
@@ -47,6 +49,18 @@ async function fetchReviews(courseId: string): Promise<Review[]> {
 
   if (error) throw error
   return (data ?? []) as Review[]
+}
+
+/* ----- Waypoints fetch (S4-04-D) ----- */
+async function fetchWaypoints(courseId: string): Promise<CourseWaypoint[]> {
+  const { data, error } = await supabase
+    .from('course_waypoints')
+    .select('*')
+    .eq('course_id', courseId)
+    .order('type', { ascending: true })
+
+  if (error) throw error
+  return (data ?? []) as CourseWaypoint[]
 }
 
 /* ----- Photo area skeleton ----- */
@@ -209,6 +223,13 @@ export function CourseDetail() {
     enabled: !!id,
   })
 
+  // S4-04-D: 웨이포인트 조회 (오프라인 지도용)
+  const { data: waypoints = [] } = useQuery({
+    queryKey: ['waypoints', id],
+    queryFn: () => fetchWaypoints(id!),
+    enabled: !!id,
+  })
+
   const photoUrl =
     course?.photos != null && Array.isArray(course.photos) && course.photos[0]
       ? course.photos[0]
@@ -273,6 +294,17 @@ export function CourseDetail() {
             className="mt-4 h-64 w-full rounded-card overflow-hidden"
           />
         </div>
+
+        {/* S4-04-D: 오프라인 지도 다운로드 */}
+        {waypoints.length > 0 && (
+          <div className="mt-3">
+            <OfflineMapManager
+              courseId={id!}
+              courseName={course.name_ko}
+              waypoints={waypoints}
+            />
+          </div>
+        )}
 
         {course.description_ko && (
           <section className="mt-4 rounded-card bg-white p-4 shadow-card">
