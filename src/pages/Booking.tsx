@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -42,6 +43,7 @@ function formatDepartureWithWeekday(dateStr: string): string {
 export function Booking() {
   const { dateId } = useParams<{ dateId: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { data, isLoading, isError, availableSeats, isBookable } =
     useTourDateDetail(dateId)
   const createBooking = useCreateBooking()
@@ -127,7 +129,7 @@ export function Booking() {
           <ChevronLeft className="h-6 w-6" />
         </button>
         <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold text-white">
-          예약하기
+          {t('booking.title')}
         </h1>
         <div className="w-10" aria-hidden />
       </header>
@@ -176,7 +178,7 @@ export function Booking() {
 
         {/* 3. 예약자 정보 폼 */}
         <section className="mx-4 mt-4">
-          <h3 className="font-bold text-rl-green">예약자 정보</h3>
+          <h3 className="font-bold text-rl-green">{t('booking.title')}</h3>
           <form
             id="booking-form"
             onSubmit={handleSubmit(onValid)}
@@ -184,7 +186,7 @@ export function Booking() {
           >
             <div className="mb-4">
               <label className="mb-1 block text-sm font-medium text-rl-green">
-                예약자명 *
+                {t('booking.name')} *
               </label>
               <input
                 type="text"
@@ -199,7 +201,7 @@ export function Booking() {
 
             <div className="mb-4">
               <label className="mb-1 block text-sm font-medium text-rl-green">
-                휴대폰 번호 *
+                {t('booking.phone')} *
               </label>
               <input
                 type="tel"
@@ -245,7 +247,7 @@ export function Booking() {
 
             <div className="mb-4">
               <label className="mb-1 block text-sm font-medium text-rl-green">
-                인원 *
+                {t('booking.partySize')} *
               </label>
               <select
                 className={`${inputBase} ${errors.partySizeStr ? inputError : ''}`}
@@ -266,7 +268,7 @@ export function Booking() {
 
             <div className="mb-4">
               <label className="mb-1 block text-sm font-medium text-rl-green">
-                특이사항 (선택)
+                {t('booking.requests')}
               </label>
               <textarea
                 rows={3}

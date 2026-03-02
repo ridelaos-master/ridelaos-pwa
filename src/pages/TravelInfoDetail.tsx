@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ChevronLeft } from 'lucide-react'
 
 /* ──────────────────────────────────────────────
@@ -762,6 +763,7 @@ const TRAVEL_DATA: Record<string, CategoryData> = {
 export function TravelInfoDetail() {
   const { categoryId } = useParams<{ categoryId: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const meta = categoryId ? CATEGORY_META[categoryId] : null
   const data = categoryId ? TRAVEL_DATA[categoryId] : null
@@ -769,12 +771,12 @@ export function TravelInfoDetail() {
   if (!meta || !data) {
     return (
       <div className="mx-auto flex min-h-screen max-w-[480px] flex-col items-center justify-center bg-rl-bg p-8 text-center">
-        <p className="text-lg text-gray-500">정보를 찾을 수 없습니다</p>
+        <p className="text-lg text-gray-500">{t('common.error')}</p>
         <button
           onClick={() => navigate('/travel-info')}
           className="mt-4 rounded-btn bg-rl-green px-6 py-2 text-white"
         >
-          돌아가기
+          {t('common.back')}
         </button>
       </div>
     )
@@ -788,12 +790,12 @@ export function TravelInfoDetail() {
           type="button"
           onClick={() => navigate('/travel-info')}
           className="flex items-center justify-center rounded-full p-2 text-white transition hover:opacity-90"
-          aria-label="뒤로 가기"
+          aria-label={t('common.back')}
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold text-white">
-          {meta.icon} {meta.name}
+          {meta.icon} {t(`travelInfo.categories.${categoryId}`)}
         </h1>
         <div className="w-10" aria-hidden />
       </header>
@@ -821,7 +823,7 @@ export function TravelInfoDetail() {
 
         {/* Ride Laos 팁 */}
         <section className="mt-4 rounded-card border border-rl-orange/30 bg-rl-orange/5 p-4 shadow-card">
-          <h3 className="text-sm font-bold text-rl-orange">💡 Ride Laos 팁</h3>
+          <h3 className="text-sm font-bold text-rl-orange">{t('travelInfo.rideLaosTip')}</h3>
           <p className="mt-2 text-sm leading-relaxed text-rl-green">{data.tip}</p>
         </section>
       </main>

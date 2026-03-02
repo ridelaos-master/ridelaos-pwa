@@ -1,10 +1,12 @@
 import NotificationBanner from '../components/NotificationBanner'
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useFeaturedCourses, type FeaturedCourseRow } from '../hooks/useCourses'
 
 /* ----- HeroBanner ----- */
 function HeroBanner() {
+  const { t } = useTranslation()
   return (
     <section className="relative h-80 w-full overflow-hidden rounded-b-3xl">
       <img
@@ -16,21 +18,21 @@ function HeroBanner() {
 
       <div className="relative z-10 flex h-full flex-col justify-end px-5 pb-5">
         <div className="mb-3 flex gap-2">
-          {['🏍️ 7개 코스', '🛡️ 안전 최우선', '⭐ 3년 연속'].map((t) => (
+          {[t('home.tag7courses'), t('home.tagSafety'), t('home.tag3years')].map((tag) => (
             <span
-              key={t}
+              key={tag}
               className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm"
             >
-              {t}
+              {tag}
             </span>
           ))}
         </div>
 
         <h2 className="text-2xl font-extrabold leading-tight text-white drop-shadow-lg">
-          라오스를 달리다
+          {t('home.heroTitle')}
         </h2>
         <p className="mt-1 text-sm text-white/90 drop-shadow">
-          오토바이로 만나는 라오스의 속살
+          {t('home.heroSubtitle')}
         </p>
       </div>
     </section>
@@ -40,6 +42,7 @@ function HeroBanner() {
 /* ----- QuickMenu ----- */
 function QuickMenu() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   return (
     <section className="px-4">
       <div className="flex gap-3">
@@ -50,7 +53,7 @@ function QuickMenu() {
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-rl-green/10 text-2xl">
             🗺️
           </span>
-          <span className="text-sm font-medium text-rl-green">투어 코스</span>
+          <span className="text-sm font-medium text-rl-green">{t('home.quickTour')}</span>
         </button>
         <button
           onClick={() => navigate('/rent')}
@@ -59,7 +62,7 @@ function QuickMenu() {
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-rl-orange/10 text-2xl">
             🏍️
           </span>
-          <span className="text-sm font-medium text-rl-green">바이크 렌트</span>
+          <span className="text-sm font-medium text-rl-green">{t('home.quickRent')}</span>
         </button>
         <button
           onClick={() => navigate('/travel-info')}
@@ -68,7 +71,7 @@ function QuickMenu() {
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-2xl">
             📖
           </span>
-          <span className="text-sm font-medium text-rl-green">여행 정보</span>
+          <span className="text-sm font-medium text-rl-green">{t('home.quickTravel')}</span>
         </button>
       </div>
     </section>
@@ -272,6 +275,7 @@ function FeaturedCourseCardFallback({
 /* ----- FeaturedCourses ----- */
 function FeaturedCourses() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { data, isLoading, isError } = useFeaturedCourses()
 
   const showFallback = isError || !data || data.length === 0
@@ -280,7 +284,7 @@ function FeaturedCourses() {
     <section className="space-y-3">
       <h2 className="flex items-center gap-2 text-lg font-bold text-rl-green">
         <span className="h-5 w-1 shrink-0 rounded-full bg-rl-orange" />
-        추천 코스
+        {t('home.featuredTitle')}
       </h2>
       <div className="-mx-4 overflow-x-auto px-4">
         <div className="flex gap-3 pb-2">
@@ -313,35 +317,18 @@ function FeaturedCourses() {
         to="/courses"
         className="inline-block text-sm font-medium text-rl-green-mid underline underline-offset-2 hover:text-rl-green"
       >
-        전체 코스 보기
+        {t('home.viewAll')}
       </Link>
     </section>
   )
 }
 
 /* ----- NoticeBanner ----- */
-const NOTICES = [
-  '2026년 3월 투어 얼리버드 할인 진행 중! 선착순 10명 20% 할인',
-] as const
-
 function NoticeBanner() {
-  const [dismissed, setDismissed] = useState<boolean[]>(() =>
-    NOTICES.map(() => false)
-  )
+  const { t } = useTranslation()
+  const [dismissed, setDismissed] = useState(false)
 
-  const handleDismiss = (index: number) => {
-    setDismissed((prev) => {
-      const next = [...prev]
-      next[index] = true
-      return next
-    })
-  }
-
-  const visibleNotices = NOTICES.map((text, i) => ({ text, i })).filter(
-    (_, i) => !dismissed[i]
-  )
-
-  if (visibleNotices.length === 0) return null
+  if (dismissed) return null
 
   return (
     <section className="rounded-btn border-l-4 border-rl-orange bg-rl-orange/10 p-4">
@@ -349,24 +336,19 @@ function NoticeBanner() {
         <span className="text-lg shrink-0" role="img" aria-label="공지">
           📢
         </span>
-        <ul className="min-w-0 flex-1 space-y-2">
-          {visibleNotices.map(({ text, i }) => (
-            <li
-              key={i}
-              className="flex items-start justify-between gap-2"
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <p className="text-sm text-rl-green">{t('home.notification')}</p>
+            <button
+              type="button"
+              onClick={() => setDismissed(true)}
+              className="shrink-0 rounded p-1 text-sm text-rl-green/50 transition hover:bg-rl-orange/20 hover:text-rl-green"
+              aria-label="해당 공지 닫기"
             >
-              <p className="text-sm text-rl-green">{text}</p>
-              <button
-                type="button"
-                onClick={() => handleDismiss(i)}
-                className="shrink-0 rounded p-1 text-sm text-rl-green/50 transition hover:bg-rl-orange/20 hover:text-rl-green"
-                aria-label="해당 공지 닫기"
-              >
-                ×
-              </button>
-            </li>
-          ))}
-        </ul>
+              ×
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   )

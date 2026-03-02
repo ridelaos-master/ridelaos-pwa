@@ -1,8 +1,11 @@
 import { Outlet } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { LoginButton } from './LoginButton'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
 export function Layout() {
+  const { t } = useTranslation()
   return (
     <div className="mx-auto flex min-h-screen max-w-[480px] flex-col bg-rl-bg font-sans text-rl-green">
       <header
@@ -10,7 +13,10 @@ export function Layout() {
         style={{ backgroundColor: '#1A3A2A' }}
       >
         <h1 className="text-xl font-semibold">Ride Laos</h1>
-        <LoginButton />
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <LoginButton />
+        </div>
       </header>
       <main className="flex-1 overflow-auto p-4 pb-20">
         <Outlet />
@@ -32,7 +38,7 @@ export function Layout() {
           }
         >
           <span aria-hidden>🏠</span>
-          <span>홈</span>
+          <span>{t('common.home')}</span>
         </NavLink>
         <NavLink
           to="/courses"
@@ -46,7 +52,7 @@ export function Layout() {
           }
         >
           <span aria-hidden>🗺️</span>
-          <span>코스</span>
+          <span>{t('common.courses')}</span>
         </NavLink>
         <NavLink
           to="/mypage"
@@ -60,7 +66,7 @@ export function Layout() {
           }
         >
           <span aria-hidden>👤</span>
-          <span>마이페이지</span>
+          <span>{t('common.myPage')}</span>
         </NavLink>
         <NavLink
           to="/safety"
@@ -74,7 +80,7 @@ export function Layout() {
           }
         >
           <span aria-hidden>🛡️</span>
-          <span>안전</span>
+          <span>{t('common.safety')}</span>
         </NavLink>
         </div>
       </nav>

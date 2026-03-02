@@ -1,0 +1,110 @@
+{
+  "common": {
+    "appName": "Ride Laos",
+    "home": "Home",
+    "courses": "Courses",
+    "myPage": "My Page",
+    "safety": "Safety",
+    "back": "Back",
+    "book": "Book Now",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "login": "Start with Kakao",
+    "perDay": "/day",
+    "available": "Available",
+    "preparing": "Coming Soon",
+    "won": "KRW",
+    "days": "days",
+    "persons": "pax"
+  },
+  "home": {
+    "heroTitle": "Ride Laos",
+    "heroSubtitle": "Discover the soul of Laos on two wheels",
+    "tag7courses": "🏍️ 7 Courses",
+    "tagSafety": "🛡️ Safety First",
+    "tag3years": "⭐ 3 Years Running",
+    "quickTour": "Tour Courses",
+    "quickRent": "Bike Rental",
+    "quickTravel": "Travel Info",
+    "featuredTitle": "Featured Courses",
+    "viewAll": "View All Courses",
+    "notification": "March 2026 Early Bird: 20% off for the first 10 riders!"
+  },
+  "courses": {
+    "title": "Tour Courses",
+    "difficulty": "Difficulty",
+    "distance": "Distance",
+    "duration": "Duration",
+    "price": "Price",
+    "fromPrice": "From ₩{{price}}",
+    "level": {
+      "입문": "Beginner",
+      "초급": "Easy",
+      "초중급": "Easy-Mid",
+      "중급": "Intermediate",
+      "중상급": "Mid-Advanced",
+      "상급": "Advanced",
+      "최상급": "Expert"
+    }
+  },
+  "booking": {
+    "title": "Book a Tour",
+    "departureDate": "Departure Date",
+    "partySize": "Party Size",
+    "name": "Full Name",
+    "phone": "Phone",
+    "email": "Email",
+    "requests": "Special Requests",
+    "totalPrice": "Total Price",
+    "submit": "Submit Booking",
+    "complete": "Booking Confirmed",
+    "bookingNumber": "Booking No.",
+    "cancelBooking": "Cancel Booking",
+    "cancelConfirm": "Are you sure you want to cancel?",
+    "cancelPolicy": "Free cancellation up to 7 days before departure.",
+    "cancelled": "Cancelled",
+    "pending": "Pending",
+    "paid": "Paid"
+  },
+  "rent": {
+    "title": "Bike Rental",
+    "subtitle": "Rent well-maintained bikes in Laos. Helmet, gloves and basic gear included. Tour participants get a discount.",
+    "discountNotice": "💡 Tour Participant Discount — 20% off rental with tour booking",
+    "bikeList": "Our Bikes",
+    "rentalGuide": "Rental Guide",
+    "inquiry": "KakaoTalk Inquiry",
+    "call": "Call Us",
+    "category": {
+      "어드벤처": "Adventure",
+      "시티/근교": "City/Suburban",
+      "투어링": "Touring"
+    }
+  },
+  "travelInfo": {
+    "title": "Travel Info",
+    "subtitle": "Essential information for your Laos motorcycle tour.",
+    "rideLaosTip": "💡 Ride Laos Tip",
+    "categories": {
+      "weather": "Weather & Seasons",
+      "regions": "Regions",
+      "money": "Money & Payment",
+      "telecom": "SIM & Internet",
+      "bike-maintenance": "Bike Maintenance",
+      "roads": "Roads & Fuel",
+      "medical": "Medical & Safety",
+      "food": "Food & Dining",
+      "history": "History & Culture",
+      "language": "Lao Language",
+      "visa": "Visa & Entry",
+      "packing": "Packing List"
+    }
+  },
+  "myPage": {
+    "title": "My Page",
+    "myBookings": "My Bookings",
+    "noBookings": "No bookings yet",
+    "writeReview": "Write Review"
+  }
+}

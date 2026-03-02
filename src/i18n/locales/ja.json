@@ -1,0 +1,110 @@
+{
+  "common": {
+    "appName": "Ride Laos",
+    "home": "ホーム",
+    "courses": "コース",
+    "myPage": "マイページ",
+    "safety": "安全",
+    "back": "戻る",
+    "book": "予約する",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "login": "カカオでログイン",
+    "perDay": "/日",
+    "available": "レンタル可能",
+    "preparing": "準備中",
+    "won": "ウォン",
+    "days": "日間",
+    "persons": "名"
+  },
+  "home": {
+    "heroTitle": "ラオスを走る",
+    "heroSubtitle": "バイクで出会うラオスの素顔",
+    "tag7courses": "🏍️ 7コース",
+    "tagSafety": "🛡️ 安全最優先",
+    "tag3years": "⭐ 3年連続",
+    "quickTour": "ツアーコース",
+    "quickRent": "バイクレンタル",
+    "quickTravel": "旅行情報",
+    "featuredTitle": "おすすめコース",
+    "viewAll": "全コースを見る",
+    "notification": "2026年3月ツアー早割実施中！先着10名様20%OFF"
+  },
+  "courses": {
+    "title": "ツアーコース",
+    "difficulty": "難易度",
+    "distance": "距離",
+    "duration": "期間",
+    "price": "料金",
+    "fromPrice": "₩{{price}}から",
+    "level": {
+      "입문": "入門",
+      "초급": "初級",
+      "초중급": "初中級",
+      "중급": "中級",
+      "중상급": "中上級",
+      "상급": "上級",
+      "최상급": "最上級"
+    }
+  },
+  "booking": {
+    "title": "予約する",
+    "departureDate": "出発日",
+    "partySize": "人数",
+    "name": "お名前",
+    "phone": "電話番号",
+    "email": "メール",
+    "requests": "ご要望",
+    "totalPrice": "合計金額",
+    "submit": "予約を申し込む",
+    "complete": "予約完了",
+    "bookingNumber": "予約番号",
+    "cancelBooking": "予約をキャンセル",
+    "cancelConfirm": "予約をキャンセルしますか？",
+    "cancelPolicy": "出発7日前まで無料キャンセル可能です。",
+    "cancelled": "キャンセル済",
+    "pending": "確認待ち",
+    "paid": "支払済"
+  },
+  "rent": {
+    "title": "バイクレンタル",
+    "subtitle": "ラオス現地で整備されたバイクをレンタル。ヘルメット、グローブなど基本装備込み。ツアー参加者は割引価格でご利用いただけます。",
+    "discountNotice": "💡 ツアー参加者特別割引 — ツアー予約でレンタル20%OFF",
+    "bikeList": "レンタルバイク一覧",
+    "rentalGuide": "レンタルガイド",
+    "inquiry": "カカオトークでお問合せ",
+    "call": "電話でお問合せ",
+    "category": {
+      "어드벤처": "アドベンチャー",
+      "시티/근교": "シティ/近郊",
+      "투어링": "ツーリング"
+    }
+  },
+  "travelInfo": {
+    "title": "旅行情報",
+    "subtitle": "ラオスバイクツアーに必要な情報をカテゴリ別にご確認ください。",
+    "rideLaosTip": "💡 Ride Laos ヒント",
+    "categories": {
+      "weather": "天気・シーズン",
+      "regions": "地域情報",
+      "money": "両替・決済",
+      "telecom": "通信・ネット",
+      "bike-maintenance": "バイク整備",
+      "roads": "給油・道路",
+      "medical": "医療・安全",
+      "food": "グルメ",
+      "history": "歴史・文化",
+      "language": "ラオス語",
+      "visa": "ビザ・入国",
+      "packing": "持ち物リスト"
+    }
+  },
+  "myPage": {
+    "title": "マイページ",
+    "myBookings": "予約一覧",
+    "noBookings": "予約はまだありません",
+    "writeReview": "レビューを書く"
+  }
+}

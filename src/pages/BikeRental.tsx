@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ChevronLeft, Phone, MessageCircle } from 'lucide-react'
 
 const BIKES = [
@@ -53,6 +54,7 @@ const BIKES = [
 ]
 
 function BikeCard({ bike }: { bike: typeof BIKES[0] }) {
+  const { t } = useTranslation()
   return (
     <div className={`rounded-card bg-white p-4 shadow-card ${!bike.available ? 'opacity-60' : ''}`}>
       {/* 이미지 영역 */}
@@ -80,7 +82,7 @@ function BikeCard({ bike }: { bike: typeof BIKES[0] }) {
         </div>
 
         <span className="mt-1 inline-block rounded bg-rl-orange/10 px-2 py-0.5 text-xs text-rl-orange">
-          {bike.category}
+          {t(`rent.category.${bike.category}`)}
         </span>
 
         <p className="mt-2 text-sm text-gray-500 line-clamp-2">{bike.description}</p>
@@ -96,15 +98,15 @@ function BikeCard({ bike }: { bike: typeof BIKES[0] }) {
         <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-3">
           <div>
             <span className="text-lg font-bold text-rl-orange">${bike.pricePerDay}</span>
-            <span className="text-sm text-gray-400"> /일</span>
+            <span className="text-sm text-gray-400"> {t('common.perDay')}</span>
           </div>
           {bike.available ? (
             <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-              대여 가능
+              {t('common.available')}
             </span>
           ) : (
             <span className="rounded-full bg-gray-200 px-3 py-1 text-xs font-medium text-gray-500">
-              준비중
+              {t('common.preparing')}
             </span>
           )}
         </div>
@@ -115,6 +117,7 @@ function BikeCard({ bike }: { bike: typeof BIKES[0] }) {
 
 export function BikeRental() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   return (
     <div className="mx-auto flex min-h-screen max-w-[480px] flex-col bg-rl-bg font-sans text-rl-green">
@@ -123,12 +126,12 @@ export function BikeRental() {
           type="button"
           onClick={() => navigate(-1)}
           className="flex items-center justify-center rounded-full p-2 text-white transition hover:opacity-90"
-          aria-label="뒤로 가기"
+          aria-label={t('common.back')}
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold text-white">
-          바이크 렌트
+          {t('rent.title')}
         </h1>
         <div className="w-10" aria-hidden />
       </header>
@@ -136,21 +139,20 @@ export function BikeRental() {
       <main className="flex-1 px-4 pb-32">
         {/* 안내 섹션 */}
         <section className="mt-4 rounded-card bg-white p-4 shadow-card">
-          <h2 className="font-bold text-rl-green">🏍️ Ride Laos 바이크 렌트</h2>
+          <h2 className="font-bold text-rl-green">🏍️ Ride Laos {t('rent.title')}</h2>
           <p className="mt-2 text-sm text-gray-500">
-            라오스 현지에서 정비된 바이크를 렌트하세요. 헬멧, 장갑 등 기본 장비 포함.
-            투어 참가자는 할인 가격으로 이용 가능합니다.
+            {t('rent.subtitle')}
           </p>
           <div className="mt-3 rounded-lg border border-rl-orange/30 bg-rl-orange/5 p-3">
             <p className="text-xs text-rl-green">
-              💡 <span className="font-medium">투어 참가자 특별 할인</span> — 투어 예약 시 렌트 20% 할인
+              {t('rent.discountNotice')}
             </p>
           </div>
         </section>
 
         {/* 바이크 목록 */}
         <section className="mt-4">
-          <h3 className="font-bold text-rl-green">보유 바이크</h3>
+          <h3 className="font-bold text-rl-green">{t('rent.bikeList')}</h3>
           <div className="mt-3 space-y-4">
             {BIKES.map((bike) => (
               <BikeCard key={bike.id} bike={bike} />
@@ -160,7 +162,7 @@ export function BikeRental() {
 
         {/* 렌트 안내 */}
         <section className="mt-6 rounded-card bg-white p-4 shadow-card">
-          <h3 className="font-bold text-rl-green">렌트 안내</h3>
+          <h3 className="font-bold text-rl-green">{t('rent.rentalGuide')}</h3>
           <div className="mt-3 space-y-3 text-sm text-gray-600">
             <div className="flex gap-3">
               <span className="shrink-0">📋</span>
@@ -202,7 +204,7 @@ export function BikeRental() {
           className="flex h-14 flex-1 items-center justify-center gap-2 rounded-btn bg-yellow-400 text-lg font-bold text-gray-900 transition hover:opacity-90"
         >
           <MessageCircle className="h-5 w-5" />
-          카카오톡 문의
+          {t('rent.inquiry')}
         </button>
         <button
           type="button"

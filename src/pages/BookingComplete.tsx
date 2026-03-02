@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { CheckCircle2, ChevronLeft, MessageCircle, CalendarCheck, MapPin } from 'lucide-react'
 import { usePushNotification } from '../hooks/usePushNotification'
 
 export function BookingComplete() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { scheduleBookingReminders, isEnabled } = usePushNotification()
 
   const bookingId = sessionStorage.getItem('bookingId') ?? ''
@@ -38,7 +40,7 @@ export function BookingComplete() {
           <ChevronLeft className="h-6 w-6" />
         </button>
         <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold text-white">
-          예약 완료
+          {t('booking.complete')}
         </h1>
         <div className="w-10" aria-hidden />
       </header>
@@ -49,7 +51,7 @@ export function BookingComplete() {
         </div>
 
         <h2 className="mt-4 text-xl font-bold text-rl-green">
-          예약이 완료되었습니다!
+          {t('booking.complete')}!
         </h2>
         <p className="mt-1 text-sm text-gray-500">
           예약 내역을 확인해주세요
@@ -60,7 +62,7 @@ export function BookingComplete() {
 
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm text-gray-500">예약번호</span>
+              <span className="text-sm text-gray-500">{t('booking.bookingNumber')}</span>
               <span className="font-mono text-sm font-medium text-rl-green">{bookingIdShort}</span>
             </div>
 
@@ -87,7 +89,7 @@ export function BookingComplete() {
 
             <div className="border-t border-gray-100 pt-3">
               <div className="flex justify-between">
-                <span className="text-sm font-bold text-gray-500">결제 금액</span>
+                <span className="text-sm font-bold text-gray-500">{t('booking.totalPrice')}</span>
                 <span className="text-lg font-bold text-rl-orange">
                   {totalPrice > 0 ? `₩${formattedPrice}` : '-'}
                 </span>

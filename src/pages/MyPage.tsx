@@ -3,6 +3,7 @@
 // 예약 내역, 완주 배지/스탬프, 리뷰 작성, 쿠폰/추천인
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   Award,
@@ -54,10 +55,10 @@ interface ReferralRow {
 
 /* ─── 상수 ──────────────────────────────────── */
 
-const STATUS_BADGE: Record<string, { label: string; cls: string }> = {
-  pending: { label: '대기', cls: 'bg-gray-200 text-gray-600' },
-  paid: { label: '결제완료', cls: 'bg-rl-success text-rl-green' },
-  cancelled: { label: '취소', cls: 'bg-rl-error text-red-600' },
+const STATUS_BADGE: Record<string, { labelKey: string; cls: string }> = {
+  pending: { labelKey: 'booking.pending', cls: 'bg-gray-200 text-gray-600' },
+  paid: { labelKey: 'booking.paid', cls: 'bg-rl-success text-rl-green' },
+  cancelled: { labelKey: 'booking.cancelled', cls: 'bg-rl-error text-red-600' },
 }
 
 const DIFFICULTY_BADGE: Record<string, { label: string; color: string }> = {
@@ -178,6 +179,7 @@ function BookingCard({
   onWriteReview: (courseId: string, courseName: string) => void
   onCancel: (bookingId: string, courseName: string) => void
 }) {
+  const { t } = useTranslation()
   const badge = STATUS_BADGE[booking.payment_status] ?? STATUS_BADGE.pending
   const courseName = booking.tour_dates?.courses?.name_ko ?? '-'
   const courseId = booking.tour_dates?.courses?.id ?? null
@@ -193,7 +195,7 @@ function BookingCard({
       <div className="flex items-center justify-between">
         <span className="text-xs text-gray-400">#{booking.id.slice(0, 8)}</span>
         <span className={`rounded px-2 py-0.5 text-xs font-medium ${badge.cls}`}>
-          {badge.label}
+          {t(badge.labelKey)}
         </span>
       </div>
       <p className="mt-2 font-medium text-rl-green">{courseName}</p>
@@ -214,7 +216,7 @@ function BookingCard({
             className="flex flex-1 items-center justify-center gap-1 rounded-btn border border-rl-orange py-2 text-sm font-medium text-rl-orange transition active:bg-orange-50"
           >
             <Star size={14} />
-            리뷰 작성
+            {t('myPage.writeReview')}
           </button>
         )}
         {isCancellable && (
@@ -223,7 +225,7 @@ function BookingCard({
             onClick={() => onCancel(booking.id, courseName)}
             className="flex flex-1 items-center justify-center gap-1 rounded-btn border border-gray-300 py-2 text-sm font-medium text-gray-500 transition active:bg-gray-50"
           >
-            예약 취소
+            {t('booking.cancelBooking')}
           </button>
         )}
       </div>
@@ -520,6 +522,7 @@ function TabBar({
 /* ─── 메인 페이지 ───────────────────────────── */
 
 export function MyPage() {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [activeTab, setActiveTab] = useState<TabKey>('bookings')
   const [reviewTarget, setReviewTarget] = useState<{
@@ -582,7 +585,7 @@ export function MyPage() {
     <div className="min-h-full bg-rl-bg pb-24">
       {/* 프로필 헤더 */}
       <div className="bg-rl-green px-4 py-6">
-        <h2 className="text-lg font-bold text-white">마이페이지</h2>
+        <h2 className="text-lg font-bold text-white">{t('myPage.title')}</h2>
         <button
           type="button"
           onClick={() =>
@@ -615,7 +618,7 @@ export function MyPage() {
             {!bookingsLoading && !bookingsError && bookings.length === 0 && (
               <div className="py-12 text-center">
                 <MapPin size={32} className="mx-auto text-gray-300" />
-                <p className="mt-2 text-sm text-gray-400">예약 내역이 없습니다</p>
+                <p className="mt-2 text-sm text-gray-400">{t('myPage.noBookings')}</p>
               </div>
             )}
 

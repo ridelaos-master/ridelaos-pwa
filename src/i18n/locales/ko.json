@@ -1,0 +1,110 @@
+{
+  "common": {
+    "appName": "Ride Laos",
+    "home": "홈",
+    "courses": "코스",
+    "myPage": "마이페이지",
+    "safety": "안전",
+    "back": "뒤로",
+    "book": "예약하기",
+    "cancel": "취소",
+    "confirm": "확인",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "login": "카카오로 시작하기",
+    "perDay": "/일",
+    "available": "대여 가능",
+    "preparing": "준비중",
+    "won": "원",
+    "days": "일",
+    "persons": "명"
+  },
+  "home": {
+    "heroTitle": "라오스를 달리다",
+    "heroSubtitle": "오토바이로 만나는 라오스의 속살",
+    "tag7courses": "🏍️ 7개 코스",
+    "tagSafety": "🛡️ 안전 최우선",
+    "tag3years": "⭐ 3년 연속",
+    "quickTour": "투어 코스",
+    "quickRent": "바이크 렌트",
+    "quickTravel": "여행 정보",
+    "featuredTitle": "추천 코스",
+    "viewAll": "전체 코스 보기",
+    "notification": "2026년 3월 투어 얼리버드 할인 진행 중! 선착순 10명 20% 할인"
+  },
+  "courses": {
+    "title": "투어 코스",
+    "difficulty": "난이도",
+    "distance": "거리",
+    "duration": "기간",
+    "price": "가격",
+    "fromPrice": "{{price}}원부터",
+    "level": {
+      "입문": "입문",
+      "초급": "초급",
+      "초중급": "초중급",
+      "중급": "중급",
+      "중상급": "중상급",
+      "상급": "상급",
+      "최상급": "최상급"
+    }
+  },
+  "booking": {
+    "title": "예약하기",
+    "departureDate": "출발일",
+    "partySize": "인원",
+    "name": "이름",
+    "phone": "연락처",
+    "email": "이메일",
+    "requests": "요청사항",
+    "totalPrice": "총 금액",
+    "submit": "예약 신청",
+    "complete": "예약 완료",
+    "bookingNumber": "예약 번호",
+    "cancelBooking": "예약 취소",
+    "cancelConfirm": "예약을 취소하시겠습니까?",
+    "cancelPolicy": "출발 7일 전까지 무료 취소 가능합니다.",
+    "cancelled": "취소",
+    "pending": "대기",
+    "paid": "결제완료"
+  },
+  "rent": {
+    "title": "바이크 렌트",
+    "subtitle": "라오스 현지에서 정비된 바이크를 렌트하세요. 헬멧, 장갑 등 기본 장비 포함. 투어 참가자는 할인 가격으로 이용 가능합니다.",
+    "discountNotice": "💡 투어 참가자 특별 할인 — 투어 예약 시 렌트 20% 할인",
+    "bikeList": "보유 바이크",
+    "rentalGuide": "렌트 안내",
+    "inquiry": "카카오톡 문의",
+    "call": "전화 문의",
+    "category": {
+      "어드벤처": "어드벤처",
+      "시티/근교": "시티/근교",
+      "투어링": "투어링"
+    }
+  },
+  "travelInfo": {
+    "title": "여행 정보",
+    "subtitle": "라오스 오토바이 투어를 위한 필수 정보를 카테고리별로 확인하세요.",
+    "rideLaosTip": "💡 Ride Laos 팁",
+    "categories": {
+      "weather": "날씨·시즌",
+      "regions": "지역 정보",
+      "money": "환전·결제",
+      "telecom": "통신·인터넷",
+      "bike-maintenance": "오토바이 정비",
+      "roads": "주유·도로",
+      "medical": "의료·안전",
+      "food": "음식·맛집",
+      "history": "역사·문화",
+      "language": "라오스어",
+      "visa": "비자·입국",
+      "packing": "준비물·짐싸기"
+    }
+  },
+  "myPage": {
+    "title": "마이페이지",
+    "myBookings": "내 예약",
+    "noBookings": "예약 내역이 없습니다",
+    "writeReview": "리뷰 작성"
+  }
+}

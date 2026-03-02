@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useCourses, type Course } from '../hooks/useCourses'
 
 /* ----- Filter: difficulty tab value ----- */
@@ -183,6 +184,7 @@ function CourseCard({ course }: { course: Course }) {
 
 /* ----- CourseList ----- */
 export function CourseList() {
+  const { t } = useTranslation()
   const [difficultyFilter, setDifficultyFilter] = useState('')
   const { data: courses = [], isLoading, isError, refetch } = useCourses()
 
@@ -204,7 +206,7 @@ export function CourseList() {
   return (
     <div className="min-h-full bg-rl-bg">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold text-rl-green">코스 목록</h1>
+        <h1 className="text-xl font-bold text-rl-green">{t('courses.title')}</h1>
         <span className="text-sm text-gray-400">{courses.length}개 코스</span>
       </div>
 
