@@ -22,31 +22,37 @@ const DIFFICULTY_LABEL: Record<string, string> = {
   advanced: '고급',
 }
 
-/* ----- FilterTabs ----- */
+/* ----- FilterTabs (IMPROVED: 개수 표시 추가) ----- */
 function FilterTabs({
   value,
   onChange,
+  counts,
 }: {
   value: string
   onChange: (v: string) => void
+  counts: Record<string, number>
 }) {
   return (
     <div className="-mx-4 overflow-x-auto px-4 pb-2">
       <div className="flex gap-2">
-        {DIFFICULTY_TABS.map((tab) => (
-          <button
-            key={tab.value || 'all'}
-            type="button"
-            onClick={() => onChange(tab.value)}
-            className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition ${
-              value === tab.value
-                ? 'bg-rl-green text-white'
-                : 'border border-rl-green/30 bg-white text-rl-green hover:bg-rl-bg'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+        {DIFFICULTY_TABS.map((tab) => {
+          const count = tab.value === '' ? counts.all : (counts[tab.value] ?? 0)
+          return (
+            <button
+              key={tab.value || 'all'}
+              type="button"
+              onClick={() => onChange(tab.value)}
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                value === tab.value
+                  ? 'bg-rl-green text-white'
+                  : 'border border-rl-green/30 bg-white text-rl-green hover:bg-rl-bg'
+              }`}
+            >
+              {tab.label}
+              <span className="ml-1 text-xs opacity-70">{count}</span>
+            </button>
+          )
+        })}
       </div>
     </div>
   )
@@ -59,7 +65,20 @@ function SkeletonCard() {
   )
 }
 
-/* ----- CourseCard ----- */
+/* ----- Level stars helper ----- */
+function LevelStars({ stars }: { stars: number }) {
+  return (
+    <span className="inline-flex gap-0.5">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <span key={i} className={`text-xs ${i < stars ? 'text-rl-orange' : 'text-gray-300'}`}>
+          ★
+        </span>
+      ))}
+    </span>
+  )
+}
+
+/* ----- CourseCard (IMPROVED: tagline, photos, level stars) ----- */
 function CourseCard({ course }: { course: Course }) {
   const difficulty = (course.difficulty ?? 'beginner') as string
   const distance =
@@ -72,33 +91,91 @@ function CourseCard({ course }: { course: Course }) {
       ? `₩${course.price_krw.toLocaleString()}`
       : '-'
 
+  // tagline (S6-01)
+  const tagline = (course as Record<string, unknown>).tagline as string | null
+
+  // details에서 level 정보 추출
+  const details = (course as Record<string, unknown>).details as Record<string, unknown> | null
+  const levelStars = details?.level_stars as number | null
+  const levelLabel = details?.level_label as string | null
+
+  // 첫 번째 사진 URL
+  const photoUrl =
+    course.photos != null && Array.isArray(course.photos) && course.photos[0]
+      ? course.photos[0]
+      : null
+
   return (
     <Link
       to={`/courses/${course.id}`}
       className="block overflow-hidden rounded-card bg-white shadow-card transition hover:shadow-md"
     >
-      <div className="relative h-40 w-full">
-        <div
-          className="h-full w-full"
-          style={{
-            background: 'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)',
-          }}
-        />
+      {/* 썸네일 */}
+      <div className="relative h-44 w-full overflow-hidden">
+        {photoUrl ? (
+          <img
+            src={photoUrl}
+            alt={course.name_ko}
+            className="h-full w-full object-cover"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement
+              target.style.display = 'none'
+              if (target.parentElement) {
+                target.parentElement.style.background =
+                  'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)'
+              }
+            }}
+          />
+        ) : (
+          <div
+            className="h-full w-full"
+            style={{
+              background: 'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)',
+            }}
+          />
+        )}
+        {/* 난이도 배지 */}
         <span
           className={`absolute left-3 top-3 rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_BADGE_STYLES[difficulty] ?? DIFFICULTY_BADGE_STYLES.beginner}`}
         >
           {DIFFICULTY_LABEL[difficulty] ?? '입문'}
         </span>
+        {/* 기간/거리 오버레이 */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-3 pb-2 pt-6">
+          <div className="flex items-center gap-2 text-xs text-white/90">
+            <span>🗺️ {distance}</span>
+            <span>·</span>
+            <span>⏱️ {period}</span>
+          </div>
+        </div>
       </div>
+
+      {/* 카드 본문 */}
       <div className="p-4">
-        <h3 className="font-bold text-base text-rl-green">{course.name_ko}</h3>
-        <p className="mt-1 text-sm text-gray-500">
-          {distance} · {period}
-        </p>
-        {minPax && (
-          <p className="mt-0.5 text-xs text-gray-400">{minPax}</p>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-bold text-base text-rl-green">{course.name_ko}</h3>
+          {levelStars != null && (
+            <div className="shrink-0 flex flex-col items-end">
+              <LevelStars stars={levelStars} />
+              {levelLabel && (
+                <span className="text-xs text-gray-400 mt-0.5">{levelLabel}</span>
+              )}
+            </div>
+          )}
+        </div>
+
+        {tagline && (
+          <p className="mt-1 text-sm text-gray-500 line-clamp-2">{tagline}</p>
         )}
-        <p className="mt-2 font-bold text-lg text-rl-orange">{price}</p>
+
+        <div className="mt-3 flex items-end justify-between">
+          <div>
+            {minPax && (
+              <p className="text-xs text-gray-400">{minPax}</p>
+            )}
+          </div>
+          <p className="font-bold text-lg text-rl-orange">{price}</p>
+        </div>
       </div>
     </Link>
   )
@@ -114,11 +191,28 @@ export function CourseList() {
     return courses.filter((c) => (c.difficulty ?? '') === difficultyFilter)
   }, [courses, difficultyFilter])
 
+  // 필터 탭에 개수 표시
+  const counts = useMemo(() => {
+    const c: Record<string, number> = { all: courses.length }
+    for (const course of courses) {
+      const d = course.difficulty ?? 'beginner'
+      c[d] = (c[d] ?? 0) + 1
+    }
+    return c
+  }, [courses])
+
   return (
     <div className="min-h-full bg-rl-bg">
-      <h1 className="mb-4 text-xl font-bold text-rl-green">코스 목록</h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-xl font-bold text-rl-green">코스 목록</h1>
+        <span className="text-sm text-gray-400">{courses.length}개 코스</span>
+      </div>
 
-      <FilterTabs value={difficultyFilter} onChange={setDifficultyFilter} />
+      <FilterTabs
+        value={difficultyFilter}
+        onChange={setDifficultyFilter}
+        counts={counts}
+      />
 
       <div className="mt-4 space-y-4">
         {isLoading && (
