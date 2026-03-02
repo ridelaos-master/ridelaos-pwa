@@ -12,7 +12,7 @@ const BIKES = [
     priceUnit: 'USD',
     features: ['오프로드 가능', '경량 바디', 'ABS 장착'],
     available: true,
-    image: '/images/bikes/crf250l.png',
+    image: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=400&h=250&fit=crop',
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ const BIKES = [
     priceUnit: 'USD',
     features: ['오프로드 가능', '장거리 편안', 'ABS 장착'],
     available: true,
-    image: '/images/bikes/crf300l.png',
+    image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=400&h=250&fit=crop',
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const BIKES = [
     priceUnit: 'USD',
     features: ['연비 우수', '초보 가능', '시내 이동'],
     available: true,
-    image: '/images/bikes/wave125.png',
+    image: 'https://images.unsplash.com/photo-1622185135505-2d795003994a?w=400&h=250&fit=crop',
   },
   {
     id: 4,
@@ -48,7 +48,7 @@ const BIKES = [
     priceUnit: 'USD',
     features: ['장거리 투어링', '편안한 시트', 'ABS 장착'],
     available: false,
-    image: '/images/bikes/cb500x.png',
+    image: 'https://images.unsplash.com/photo-1558980394-4c7c9299fe96?w=400&h=250&fit=crop',
   },
 ]
 
@@ -56,9 +56,20 @@ function BikeCard({ bike }: { bike: typeof BIKES[0] }) {
   return (
     <div className={`rounded-card bg-white p-4 shadow-card ${!bike.available ? 'opacity-60' : ''}`}>
       {/* 이미지 영역 */}
-      <div className="flex h-40 items-center justify-center rounded-lg bg-gray-100">
-        <span className="text-5xl">🏍️</span>
-      </div>
+      <img
+        src={bike.image}
+        alt={bike.name}
+        className="h-40 w-full rounded-lg object-cover"
+        loading="lazy"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement
+          target.style.display = 'none'
+          const fallback = document.createElement('div')
+          fallback.className = 'flex h-40 items-center justify-center rounded-lg bg-gray-100'
+          fallback.innerHTML = '<span class="text-5xl">🏍️</span>'
+          target.parentElement?.insertBefore(fallback, target)
+        }}
+      />
 
       <div className="mt-3">
         <div className="flex items-center justify-between">
