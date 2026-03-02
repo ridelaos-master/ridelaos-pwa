@@ -23,17 +23,15 @@ interface DashboardStats {
 
 interface RecentBooking {
   id: string
-  customer_name: string
-  phone: string
+  tour_date_id: string | null
+  participants: { name: string; phone: string } | null
   party_size: number
   total_price_krw: number
   payment_status: 'pending' | 'paid' | 'cancelled'
   created_at: string
   tour_dates?: {
     departure_date: string
-    courses?: {
-      name_ko: string
-    }
+    courses?: { name_ko: string }
   }
 }
 
@@ -102,14 +100,14 @@ export function AdminDashboard() {
       const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59).toISOString()
       const today = now.toISOString().split('T')[0]
 
-      // 병렬로 데이터 조회
+      // 병렬로 기본 데이터 조회 (중첩 조인 없이)
       const [
         { count: totalBookings },
         { data: monthlyBookings },
         { count: pendingBookings },
         { count: totalCourses },
-        { data: recent },
-        { data: upcoming },
+        { data: recentRaw },
+        { data: upcomingRaw },
       ] = await Promise.all([
         // 1. 총 예약 수
         supabase
@@ -135,27 +133,17 @@ export function AdminDashboard() {
           .from('courses')
           .select('*', { count: 'exact', head: true }),
 
-        // 5. 최근 예약 5건
+        // 5. 최근 예약 5건 (조인 없이)
         supabase
           .from('bookings')
-          .select(`
-            id, customer_name, phone, party_size, total_price_krw,
-            payment_status, created_at,
-            tour_dates (
-              departure_date,
-              courses ( name_ko )
-            )
-          `)
+          .select('id, tour_date_id, participants, party_size, total_price_krw, payment_status, created_at')
           .order('created_at', { ascending: false })
           .limit(5),
 
-        // 6. 이번 달 이후 출발 투어
+        // 6. 이번 달 이후 출발 투어 (조인 없이)
         supabase
           .from('tour_dates')
-          .select(`
-            id, departure_date, available_seats, current_pax,
-            courses ( name_ko, min_pax )
-          `)
+          .select('id, departure_date, available_seats, current_pax, course_id')
           .gte('departure_date', today)
           .order('departure_date', { ascending: true })
           .limit(5),
@@ -174,8 +162,79 @@ export function AdminDashboard() {
         totalCourses: totalCourses || 0,
       })
 
-      setRecentBookings((recent as RecentBooking[]) || [])
-      setUpcomingTours((upcoming as UpcomingTour[]) || [])
+      // 최근 예약: tour_dates → courses 별도 조회 후 조합
+      const recentBookingsData = recentRaw || []
+      const recentTourDateIds = [...new Set(recentBookingsData.map((b: { tour_date_id?: string }) => b.tour_date_id).filter(Boolean))]
+
+      let recentTourDatesMap: Record<string, { departure_date: string; course_id: string }> = {}
+      let recentCoursesMap: Record<string, { name_ko: string }> = {}
+
+      if (recentTourDateIds.length > 0) {
+        const { data: tdData } = await supabase
+          .from('tour_dates')
+          .select('id, departure_date, course_id')
+          .in('id', recentTourDateIds)
+
+        if (tdData) {
+          tdData.forEach((td: { id: string; departure_date: string; course_id: string }) => {
+            recentTourDatesMap[td.id] = { departure_date: td.departure_date, course_id: td.course_id }
+          })
+
+          const courseIds = [...new Set(tdData.map((td: { course_id?: string }) => td.course_id).filter(Boolean))]
+          if (courseIds.length > 0) {
+            const { data: cData } = await supabase
+              .from('courses')
+              .select('id, name_ko')
+              .in('id', courseIds)
+
+            if (cData) {
+              cData.forEach((c: { id: string; name_ko: string }) => {
+                recentCoursesMap[c.id] = { name_ko: c.name_ko }
+              })
+            }
+          }
+        }
+      }
+
+      const combinedRecent: RecentBooking[] = recentBookingsData.map((b: Record<string, unknown>) => {
+        const tourDate = b.tour_date_id ? recentTourDatesMap[b.tour_date_id as string] : null
+        const course = tourDate?.course_id ? recentCoursesMap[tourDate.course_id] : null
+        return {
+          ...b,
+          tour_dates: tourDate ? {
+            departure_date: tourDate.departure_date,
+            courses: course ? { name_ko: course.name_ko } : undefined,
+          } : undefined,
+        } as RecentBooking
+      })
+
+      setRecentBookings(combinedRecent)
+
+      // 출발 예정 투어: courses 별도 조회 후 조합
+      const upcomingData = upcomingRaw || []
+      const upcomingCourseIds = [...new Set(upcomingData.map((t: { course_id?: string }) => t.course_id).filter(Boolean))]
+
+      let upcomingCoursesMap: Record<string, { name_ko: string; min_pax: number }> = {}
+
+      if (upcomingCourseIds.length > 0) {
+        const { data: cData } = await supabase
+          .from('courses')
+          .select('id, name_ko, min_pax')
+          .in('id', upcomingCourseIds)
+
+        if (cData) {
+          cData.forEach((c: { id: string; name_ko: string; min_pax: number }) => {
+            upcomingCoursesMap[c.id] = { name_ko: c.name_ko, min_pax: c.min_pax }
+          })
+        }
+      }
+
+      const combinedUpcoming: UpcomingTour[] = upcomingData.map((t: Record<string, unknown>) => ({
+        ...t,
+        courses: t.course_id ? upcomingCoursesMap[t.course_id as string] : undefined,
+      } as UpcomingTour))
+
+      setUpcomingTours(combinedUpcoming)
     } catch (err) {
       console.error('Dashboard data fetch error:', err)
       setError('데이터를 불러오는 중 오류가 발생했습니다.')
@@ -299,7 +358,7 @@ export function AdminDashboard() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <p className="truncate text-sm font-medium text-[#1A3A2A]">
-                        {booking.customer_name}
+                        {booking.participants?.name || '미입력'}
                       </p>
                       <StatusBadge status={booking.payment_status} />
                     </div>
