@@ -5,7 +5,6 @@ import { useFeaturedCourses, type FeaturedCourseRow } from '../hooks/useCourses'
 
 /* ----- HeroBanner ----- */
 function HeroBanner() {
-  const navigate = useNavigate()
   return (
     <section className="relative h-72 w-full overflow-hidden rounded-b-3xl">
       <img
@@ -33,12 +32,43 @@ function HeroBanner() {
         <p className="mt-1 text-sm text-white/90 drop-shadow">
           오토바이로 만나는 라오스의 속살
         </p>
+      </div>
+    </section>
+  )
+}
 
+/* ----- QuickMenu ----- */
+function QuickMenu() {
+  const navigate = useNavigate()
+  return (
+    <section className="px-4">
+      <div className="flex gap-3">
         <button
           onClick={() => navigate('/courses')}
-          className="mt-4 flex h-11 w-40 items-center justify-center rounded-btn bg-rl-orange text-sm font-bold text-white shadow-lg transition hover:opacity-90"
+          className="flex flex-1 flex-col items-center gap-2 rounded-card bg-white py-4 shadow-card transition active:scale-95"
         >
-          🏍️ 코스 보기
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-rl-green/10 text-2xl">
+            🗺️
+          </span>
+          <span className="text-sm font-medium text-rl-green">투어 코스</span>
+        </button>
+        <button
+          onClick={() => navigate('/rent')}
+          className="flex flex-1 flex-col items-center gap-2 rounded-card bg-white py-4 shadow-card transition active:scale-95"
+        >
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-rl-orange/10 text-2xl">
+            🏍️
+          </span>
+          <span className="text-sm font-medium text-rl-green">바이크 렌트</span>
+        </button>
+        <button
+          onClick={() => navigate('/safety')}
+          className="flex flex-1 flex-col items-center gap-2 rounded-card bg-white py-4 shadow-card transition active:scale-95"
+        >
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-2xl">
+            🛡️
+          </span>
+          <span className="text-sm font-medium text-rl-green">안전 정보</span>
         </button>
       </div>
     </section>
@@ -347,6 +377,7 @@ export function Home() {
   return (
     <div className="space-y-6 bg-rl-bg">
       <HeroBanner />
+      <QuickMenu />
       <NotificationBanner />
       <FeaturedCourses />
       <NoticeBanner />
