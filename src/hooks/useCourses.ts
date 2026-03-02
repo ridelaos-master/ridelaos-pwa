@@ -48,7 +48,7 @@ export type FeaturedCourseRow = Pick<
 async function fetchFeaturedCourses(): Promise<FeaturedCourseRow[]> {
   const { data, error } = await supabase
     .from('courses')
-    .select('id, name_ko, difficulty, duration_days, price_krw, tagline')
+    .select('id, name_ko, difficulty, duration_days, price_krw, tagline, photos, details')
     .limit(3)
     .order('name_ko')
 

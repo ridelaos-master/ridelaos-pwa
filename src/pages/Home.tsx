@@ -118,6 +118,16 @@ function FeaturedCourseCard({
       ? `₩${course.price_krw.toLocaleString()}`
       : '-'
 
+  const photoUrl =
+    course.photos != null && Array.isArray(course.photos) && course.photos[0]
+      ? course.photos[0]
+      : null
+
+  const details =
+    course.details && typeof course.details === 'object' && Object.keys(course.details).length > 0
+      ? (course.details as { level_stars?: number; level_label?: string })
+      : null
+
   return (
     <article
       role="button"
@@ -131,12 +141,31 @@ function FeaturedCourseCard({
       }}
       className="min-w-[200px] shrink-0 cursor-pointer overflow-hidden rounded-card bg-white shadow-card transition hover:shadow-md"
     >
-      <div
-        className="h-24 w-full"
-        style={{
-          background: 'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)',
-        }}
-      />
+      {photoUrl ? (
+        <img
+          src={photoUrl}
+          alt={course.name_ko}
+          className="h-24 w-full object-cover"
+          loading="lazy"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement
+            target.style.display = 'none'
+            if (target.parentElement) {
+              const div = document.createElement('div')
+              div.className = 'h-24 w-full'
+              div.style.background = 'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)'
+              target.parentElement.insertBefore(div, target)
+            }
+          }}
+        />
+      ) : (
+        <div
+          className="h-24 w-full"
+          style={{
+            background: 'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)',
+          }}
+        />
+      )}
       <div className="p-3">
         <span
           className={`inline-block rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_STYLES[difficulty] ?? DIFFICULTY_STYLES.beginner}`}
@@ -150,6 +179,18 @@ function FeaturedCourseCard({
           <p className="mt-0.5 text-xs text-gray-400 line-clamp-1">
             {course.tagline}
           </p>
+        )}
+        {details?.level_stars != null && (
+          <div className="mt-1 flex items-center gap-1">
+            <span className="flex gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <span key={i} className={`text-xs ${i < (details.level_stars ?? 0) ? 'text-rl-orange' : 'text-gray-300'}`}>★</span>
+              ))}
+            </span>
+            {details.level_label && (
+              <span className="text-xs text-gray-400">{details.level_label}</span>
+            )}
+          </div>
         )}
         <p className="mt-1 text-xs text-gray-500">
           {period} · {price}
