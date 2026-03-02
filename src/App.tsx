@@ -3,8 +3,10 @@ import { Routes, Route } from 'react-router-dom'
 import { testConnection } from './lib/supabase'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Layout } from './components/Layout'
+import { AdminAuthProvider } from './contexts/AdminAuthContext'
+import { AdminRoute } from './components/AdminRoute'
 
-// S4-08: 페이지별 lazy loading — 초기 번들 크기 대폭 감소
+// 기존 페이지 (lazy)
 const AuthCallback = lazy(() => import('./pages/AuthCallback').then(m => ({ default: m.AuthCallback })))
 const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })))
 const CourseList = lazy(() => import('./pages/CourseList').then(m => ({ default: m.CourseList })))
@@ -15,7 +17,16 @@ const BookingComplete = lazy(() => import('./pages/BookingComplete').then(m => (
 const MyPage = lazy(() => import('./pages/MyPage').then(m => ({ default: m.MyPage })))
 const Safety = lazy(() => import('./pages/Safety'))
 
-// S4-08: 로딩 폴백 UI
+// 관리자 페이지 (lazy)
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'))
+const AdminLayout = lazy(() => import('./components/AdminLayout'))
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
+const AdminBookings = lazy(() => import('./pages/admin/AdminBookings'))
+const AdminCourses = lazy(() => import('./pages/admin/AdminCourses'))
+const AdminTourDates = lazy(() => import('./pages/admin/AdminTourDates'))
+const AdminReviews = lazy(() => import('./pages/admin/AdminReviews'))
+const AdminContent = lazy(() => import('./pages/admin/AdminContent'))
+
 function PageLoading() {
   return (
     <div className="flex min-h-[50vh] items-center justify-center">
@@ -28,15 +39,14 @@ function PageLoading() {
 }
 
 function App() {
-  useEffect(() => {
-    testConnection()
-  }, [])
+  useEffect(() => { testConnection() }, [])
 
   return (
     <div className="min-h-screen bg-rl-bg font-sans text-rl-green">
       <ErrorBoundary>
         <Suspense fallback={<PageLoading />}>
           <Routes>
+            {/* 기존 사용자 라우트 */}
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/booking/:dateId" element={<Booking />} />
             <Route path="/payment" element={<Payment />} />
@@ -47,6 +57,33 @@ function App() {
               <Route path="/courses/:id" element={<CourseDetail />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/safety" element={<Safety />} />
+            </Route>
+
+            {/* 관리자 라우트 */}
+            <Route
+              path="/admin/login"
+              element={
+                <AdminAuthProvider>
+                  <AdminLogin />
+                </AdminAuthProvider>
+              }
+            />
+            <Route
+              path="/admin/*"
+              element={
+                <AdminAuthProvider>
+                  <AdminRoute>
+                    <AdminLayout />
+                  </AdminRoute>
+                </AdminAuthProvider>
+              }
+            >
+              <Route index element={<AdminDashboard />} />
+              <Route path="bookings" element={<AdminBookings />} />
+              <Route path="courses" element={<AdminCourses />} />
+              <Route path="tour-dates" element={<AdminTourDates />} />
+              <Route path="reviews" element={<AdminReviews />} />
+              <Route path="content" element={<AdminContent />} />
             </Route>
           </Routes>
         </Suspense>
