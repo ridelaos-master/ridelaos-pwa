@@ -146,6 +146,11 @@ function FeaturedCourseCard({
         <h3 className="mt-2 font-bold text-sm text-rl-green">
           {course.name_ko}
         </h3>
+        {course.tagline && (
+          <p className="mt-0.5 text-xs text-gray-400 line-clamp-1">
+            {course.tagline}
+          </p>
+        )}
         <p className="mt-1 text-xs text-gray-500">
           {period} · {price}
         </p>
