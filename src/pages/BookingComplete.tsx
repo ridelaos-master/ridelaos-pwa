@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CheckCircle2, ChevronLeft } from 'lucide-react'
+import { CheckCircle2, ChevronLeft, MessageCircle, CalendarCheck, MapPin } from 'lucide-react'
 import { usePushNotification } from '../hooks/usePushNotification'
 
 export function BookingComplete() {
@@ -11,11 +11,11 @@ export function BookingComplete() {
   const totalPrice = Number(sessionStorage.getItem('totalPrice') ?? 0)
   const courseName = sessionStorage.getItem('courseName') ?? ''
   const departureDate = sessionStorage.getItem('departureDate') ?? ''
+  const partySize = sessionStorage.getItem('partySize') ?? ''
 
   const bookingIdShort = bookingId ? bookingId.slice(0, 8) : 'N/A'
   const formattedPrice = totalPrice.toLocaleString('ko-KR')
 
-  // S4-07: 예약 완료 시 D-7, D-1 알림 스케줄링
   useEffect(() => {
     if (isEnabled && bookingId && courseName && departureDate) {
       scheduleBookingReminders({
@@ -24,11 +24,10 @@ export function BookingComplete() {
         departureDate,
       })
     }
-  }, []) // 마운트 시 1회만
+  }, [])
 
   return (
     <div className="mx-auto flex min-h-screen max-w-[480px] flex-col bg-rl-bg font-sans text-rl-green">
-      {/* 커스텀 헤더 */}
       <header className="flex h-14 shrink-0 items-center bg-rl-green px-4">
         <button
           type="button"
@@ -44,33 +43,103 @@ export function BookingComplete() {
         <div className="w-10" aria-hidden />
       </header>
 
-      {/* 본문 */}
-      <main className="flex flex-1 flex-col items-center justify-center px-4 pb-32">
-        <CheckCircle2 className="h-16 w-16 text-rl-green" />
+      <main className="flex flex-1 flex-col items-center px-4 pt-8 pb-32">
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-rl-green/10">
+          <CheckCircle2 className="h-12 w-12 text-rl-green" />
+        </div>
 
         <h2 className="mt-4 text-xl font-bold text-rl-green">
           예약이 완료되었습니다!
         </h2>
+        <p className="mt-1 text-sm text-gray-500">
+          예약 내역을 확인해주세요
+        </p>
 
         <section className="mt-6 w-full rounded-card bg-white p-5 shadow-card">
-          <div className="flex justify-between border-b border-gray-100 pb-3">
-            <span className="text-sm text-gray-500">예약번호</span>
-            <span className="font-medium text-rl-green">{bookingIdShort}</span>
-          </div>
-          <div className="flex justify-between pt-3">
-            <span className="text-sm text-gray-500">결제 금액</span>
-            <span className="font-bold text-rl-orange">
-              {totalPrice > 0 ? `₩${formattedPrice}` : '-'}
-            </span>
+          <h3 className="mb-3 text-sm font-bold text-rl-green">예약 정보</h3>
+
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-500">예약번호</span>
+              <span className="font-mono text-sm font-medium text-rl-green">{bookingIdShort}</span>
+            </div>
+
+            {courseName && (
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-500">코스</span>
+                <span className="text-sm font-medium text-rl-green">{courseName}</span>
+              </div>
+            )}
+
+            {departureDate && (
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-500">출발일</span>
+                <span className="text-sm font-medium text-rl-green">{departureDate}</span>
+              </div>
+            )}
+
+            {partySize && (
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-500">인원</span>
+                <span className="text-sm font-medium text-rl-green">{partySize}명</span>
+              </div>
+            )}
+
+            <div className="border-t border-gray-100 pt-3">
+              <div className="flex justify-between">
+                <span className="text-sm font-bold text-gray-500">결제 금액</span>
+                <span className="text-lg font-bold text-rl-orange">
+                  {totalPrice > 0 ? `₩${formattedPrice}` : '-'}
+                </span>
+              </div>
+            </div>
           </div>
         </section>
 
-        <p className="mt-5 text-center text-sm text-gray-500">
-          담당자가 확인 후 카카오톡으로 연락드립니다
-        </p>
+        <section className="mt-4 w-full rounded-card bg-white p-5 shadow-card">
+          <h3 className="mb-3 text-sm font-bold text-rl-green">다음 단계 안내</h3>
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-rl-orange/10">
+                <MessageCircle className="h-4 w-4 text-rl-orange" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-rl-green">카카오톡 확인 메시지</p>
+                <p className="text-xs text-gray-500">담당자가 24시간 내 카카오톡으로 예약 확인 연락드립니다</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-rl-green/10">
+                <CalendarCheck className="h-4 w-4 text-rl-green" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-rl-green">출발 D-7 준비 안내</p>
+                <p className="text-xs text-gray-500">출발 7일 전 준비물, 집결지 등 상세 안내를 보내드립니다</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-rl-green/10">
+                <MapPin className="h-4 w-4 text-rl-green" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-rl-green">출발 당일</p>
+                <p className="text-xs text-gray-500">비엔티안 시내 Ride Laos 사무실에서 집결합니다</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="mt-4 w-full rounded-card border border-rl-orange/30 bg-rl-orange/5 p-4">
+          <p className="text-center text-sm text-rl-green">
+            예약 취소는 <span className="font-bold">마이페이지 → 내 예약</span>에서 가능합니다.
+            <br />
+            <span className="text-xs text-gray-500">출발 7일 전까지 무료 취소 가능</span>
+          </p>
+        </div>
       </main>
 
-      {/* 하단 버튼 */}
       <div className="fixed bottom-0 left-1/2 flex w-full max-w-[480px] -translate-x-1/2 gap-3 bg-white px-4 pt-3 pb-[env(safe-area-inset-bottom,0px)]">
         <button
           type="button"

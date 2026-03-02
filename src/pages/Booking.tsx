@@ -95,6 +95,9 @@ export function Booking() {
       })
       sessionStorage.setItem('bookingId', result.id)
       sessionStorage.setItem('totalPrice', String(totalPriceKrw))
+      sessionStorage.setItem('courseName', data.course.name_ko)
+      sessionStorage.setItem('departureDate', formatDepartureWithWeekday(data.departure_date))
+      sessionStorage.setItem('partySize', String(partySizeNum))
       console.log('저장됨:', result.id, totalPriceKrw)
       navigate('/payment')
     } catch {

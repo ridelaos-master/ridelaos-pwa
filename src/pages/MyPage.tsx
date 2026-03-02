@@ -172,9 +172,11 @@ function SkeletonCard() {
 function BookingCard({
   booking,
   onWriteReview,
+  onCancel,
 }: {
   booking: BookingRow
   onWriteReview: (courseId: string, courseName: string) => void
+  onCancel: (bookingId: string, courseName: string) => void
 }) {
   const badge = STATUS_BADGE[booking.payment_status] ?? STATUS_BADGE.pending
   const courseName = booking.tour_dates?.courses?.name_ko ?? '-'
@@ -182,6 +184,9 @@ function BookingCard({
   const departure = booking.tour_dates?.departure_date
     ? formatShortDate(booking.tour_dates.departure_date)
     : '-'
+
+  const isCancellable =
+    booking.payment_status === 'pending' || booking.payment_status === 'paid'
 
   return (
     <div className="rounded-card bg-white p-4 shadow-card">
@@ -201,17 +206,27 @@ function BookingCard({
         </span>
       </div>
 
-      {/* 결제완료 상태일 때 리뷰 작성 버튼 */}
-      {booking.payment_status === 'paid' && courseId && (
-        <button
-          type="button"
-          onClick={() => onWriteReview(courseId, courseName)}
-          className="mt-3 flex w-full items-center justify-center gap-1 rounded-btn border border-rl-orange py-2 text-sm font-medium text-rl-orange transition active:bg-orange-50"
-        >
-          <Star size={14} />
-          리뷰 작성
-        </button>
-      )}
+      <div className="mt-3 flex gap-2">
+        {booking.payment_status === 'paid' && courseId && (
+          <button
+            type="button"
+            onClick={() => onWriteReview(courseId, courseName)}
+            className="flex flex-1 items-center justify-center gap-1 rounded-btn border border-rl-orange py-2 text-sm font-medium text-rl-orange transition active:bg-orange-50"
+          >
+            <Star size={14} />
+            리뷰 작성
+          </button>
+        )}
+        {isCancellable && (
+          <button
+            type="button"
+            onClick={() => onCancel(booking.id, courseName)}
+            className="flex flex-1 items-center justify-center gap-1 rounded-btn border border-gray-300 py-2 text-sm font-medium text-gray-500 transition active:bg-gray-50"
+          >
+            예약 취소
+          </button>
+        )}
+      </div>
     </div>
   )
 }
@@ -505,6 +520,7 @@ function TabBar({
 /* ─── 메인 페이지 ───────────────────────────── */
 
 export function MyPage() {
+  const queryClient = useQueryClient()
   const [activeTab, setActiveTab] = useState<TabKey>('bookings')
   const [reviewTarget, setReviewTarget] = useState<{
     courseId: string
@@ -540,6 +556,26 @@ export function MyPage() {
 
   const handleWriteReview = (courseId: string, courseName: string) => {
     setReviewTarget({ courseId, courseName })
+  }
+
+  const handleCancelBooking = async (bookingId: string, courseName: string) => {
+    const confirmed = window.confirm(
+      `"${courseName}" 예약을 취소하시겠습니까?\n\n출발 7일 전까지 무료 취소 가능합니다.`
+    )
+    if (!confirmed) return
+
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .update({ payment_status: 'cancelled' })
+        .eq('id', bookingId)
+
+      if (error) throw error
+      alert('예약이 취소되었습니다.')
+      queryClient.invalidateQueries({ queryKey: ['myBookings'] })
+    } catch {
+      alert('취소 처리 중 오류가 발생했습니다.')
+    }
   }
 
   return (
@@ -590,6 +626,7 @@ export function MyPage() {
                   key={b.id}
                   booking={b}
                   onWriteReview={handleWriteReview}
+                  onCancel={handleCancelBooking}
                 />
               ))}
 
