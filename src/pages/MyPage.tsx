@@ -8,7 +8,6 @@ import {
   Award,
   Star,
   Ticket,
-  ChevronRight,
   X,
   Send,
   Gift,
@@ -133,7 +132,7 @@ async function submitReview(params: {
     user_id: null,
     rating: params.rating,
     content: params.content,
-  })
+  } as any)
   if (error) throw error
 }
 
@@ -228,7 +227,6 @@ function CompletionCard({ completion }: { completion: CompletionRow }) {
 
   return (
     <div className="rounded-card bg-white p-4 shadow-card flex items-center gap-4">
-      {/* 스탬프 아이콘 */}
       <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-rl-green/10">
         <Award size={28} className="text-rl-green" />
       </div>
@@ -561,10 +559,8 @@ export function MyPage() {
       </div>
 
       <div className="px-4 -mt-2 space-y-4">
-        {/* 탭 바 */}
         <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* ── 예약 탭 ── */}
         {activeTab === 'bookings' && (
           <div className="space-y-3">
             {bookingsLoading && (
@@ -597,7 +593,6 @@ export function MyPage() {
                 />
               ))}
 
-            {/* 리뷰 등록 성공 토스트 */}
             {reviewSubmitted && (
               <div className="rounded-btn bg-rl-success p-3 text-center text-sm font-medium text-rl-green">
                 리뷰가 등록되었습니다!
@@ -606,7 +601,6 @@ export function MyPage() {
           </div>
         )}
 
-        {/* ── 완주 탭 ── */}
         {activeTab === 'completions' && (
           <div className="space-y-3">
             {completionsLoading && (
@@ -637,10 +631,8 @@ export function MyPage() {
           </div>
         )}
 
-        {/* ── 쿠폰 탭 ── */}
         {activeTab === 'coupons' && (
           <div className="space-y-3">
-            {/* 추천인 코드 */}
             <ReferralSection referral={referral ?? null} />
 
             {couponsLoading && (
@@ -662,7 +654,6 @@ export function MyPage() {
         )}
       </div>
 
-      {/* 리뷰 작성 모달 */}
       {reviewTarget && (
         <ReviewModal
           courseId={reviewTarget.courseId}

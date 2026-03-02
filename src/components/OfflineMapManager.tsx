@@ -7,13 +7,11 @@ import { Download, Trash2, RefreshCw, CheckCircle, WifiOff, X } from 'lucide-rea
 
 interface OfflineMapManagerProps {
   courseId: string;
-  courseName: string;
   waypoints: CourseWaypoint[];
 }
 
 export default function OfflineMapManager({
   courseId,
-  courseName,
   waypoints,
 }: OfflineMapManagerProps) {
   const {

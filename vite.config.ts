@@ -22,9 +22,29 @@ export default defineConfig(({ mode }) => {
 
   return {
   build: {
+    // S4-08: 코드 스플리팅 + 최적화
+    target: 'es2020',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,  // 프로덕션에서 console.log 제거
+        drop_debugger: true,
+      },
+    },
     rollupOptions: {
       external: [/^api\//],
+      output: {
+        // S4-08: 청크 분리 — 큰 라이브러리 별도 로드
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-router': ['react-router-dom'],
+          'vendor-query': ['@tanstack/react-query'],
+          'vendor-mapbox': ['mapbox-gl'],
+          'vendor-form': ['react-hook-form', '@hookform/resolvers', 'zod'],
+        },
+      },
     },
+    chunkSizeWarningLimit: 300,
   },
   server: {
     watch: {
@@ -93,30 +113,41 @@ export default defineConfig(({ mode }) => {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api\//],
-        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB (임시 아이콘 대용, 추후 아이콘 압축 권장)
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
         runtimeCaching: [
           {
-            // S4-04-C: 온라인 자동 캐싱 (브라우징 중 자동 저장)
             urlPattern: /^https:\/\/api\.mapbox\.com\/styles\/v1\//i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'mapbox-tiles-auto',
               expiration: {
                 maxEntries: 300,
-                maxAgeSeconds: 7 * 24 * 60 * 60, // 7일
+                maxAgeSeconds: 7 * 24 * 60 * 60,
               },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
           {
-            // S4-04-C: Mapbox 폰트/스프라이트 캐싱
             urlPattern: /^https:\/\/api\.mapbox\.com\/(fonts|sprites)\//i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'mapbox-assets',
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // 30일
+                maxAgeSeconds: 30 * 24 * 60 * 60,
+              },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            // S4-08: Supabase API 캐싱
+            urlPattern: /^https:\/\/.*\.supabase\.co\/rest\//i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'supabase-api',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 5 * 60,
               },
               cacheableResponse: { statuses: [0, 200] },
             },

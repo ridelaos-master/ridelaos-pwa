@@ -1,17 +1,31 @@
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { testConnection } from './lib/supabase'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Layout } from './components/Layout'
-import { AuthCallback } from './pages/AuthCallback'
-import { Home } from './pages/Home'
-import { CourseList } from './pages/CourseList'
-import { CourseDetail } from './pages/CourseDetail'
-import { Booking } from './pages/Booking'
-import { Payment } from './pages/Payment'
-import { BookingComplete } from './pages/BookingComplete'
-import { MyPage } from './pages/MyPage'
-import Safety from './pages/Safety'
+
+// S4-08: 페이지별 lazy loading — 초기 번들 크기 대폭 감소
+const AuthCallback = lazy(() => import('./pages/AuthCallback').then(m => ({ default: m.AuthCallback })))
+const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })))
+const CourseList = lazy(() => import('./pages/CourseList').then(m => ({ default: m.CourseList })))
+const CourseDetail = lazy(() => import('./pages/CourseDetail').then(m => ({ default: m.CourseDetail })))
+const Booking = lazy(() => import('./pages/Booking').then(m => ({ default: m.Booking })))
+const Payment = lazy(() => import('./pages/Payment').then(m => ({ default: m.Payment })))
+const BookingComplete = lazy(() => import('./pages/BookingComplete').then(m => ({ default: m.BookingComplete })))
+const MyPage = lazy(() => import('./pages/MyPage').then(m => ({ default: m.MyPage })))
+const Safety = lazy(() => import('./pages/Safety'))
+
+// S4-08: 로딩 폴백 UI
+function PageLoading() {
+  return (
+    <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-8 w-8 animate-spin rounded-full border-3 border-rl-green border-t-transparent" />
+        <p className="text-sm text-gray-400">로딩 중...</p>
+      </div>
+    </div>
+  )
+}
 
 function App() {
   useEffect(() => {
@@ -21,19 +35,21 @@ function App() {
   return (
     <div className="min-h-screen bg-rl-bg font-sans text-rl-green">
       <ErrorBoundary>
-        <Routes>
-          <Route path="/auth/callback" element={<AuthCallback />} />
-          <Route path="/booking/:dateId" element={<Booking />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/booking-complete" element={<BookingComplete />} />
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/courses" element={<CourseList />} />
-            <Route path="/courses/:id" element={<CourseDetail />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/safety" element={<Safety />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<PageLoading />}>
+          <Routes>
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/booking/:dateId" element={<Booking />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/booking-complete" element={<BookingComplete />} />
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/courses" element={<CourseList />} />
+              <Route path="/courses/:id" element={<CourseDetail />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/safety" element={<Safety />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </ErrorBoundary>
     </div>
   )

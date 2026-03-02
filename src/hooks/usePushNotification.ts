@@ -105,7 +105,6 @@ export function usePushNotification(): UsePushNotificationReturn {
               icon: '/pwa-192x192.png',
               badge: '/pwa-192x192.png',
               tag: generateId(),
-              vibrate: [200, 100, 200],
             });
           });
         } else {

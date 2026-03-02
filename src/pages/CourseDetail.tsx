@@ -300,7 +300,6 @@ export function CourseDetail() {
           <div className="mt-3">
             <OfflineMapManager
               courseId={id!}
-              courseName={course.name_ko}
               waypoints={waypoints}
             />
           </div>
