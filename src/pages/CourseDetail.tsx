@@ -117,33 +117,76 @@ function PhotoSkeleton() {
   )
 }
 
-/* ===== Photo area (기존 유지) ===== */
+/* ===== Photo area (네이티브 스크롤 갤러리) ===== */
 function CoursePhoto({
-  photoUrl,
+  photos,
   difficulty,
   onBack,
 }: {
-  photoUrl: string | null
+  photos: string[]
   difficulty: string | null
   onBack: () => void
 }) {
+  const [current, setCurrent] = useState(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
   const d = (difficulty ?? 'beginner') as string
-  return (
-    <div className="relative h-56 w-full overflow-hidden">
-      {photoUrl ? (
-        <img
-          src={photoUrl}
-          alt=""
-          className="h-full w-full object-cover"
-        />
-      ) : (
+
+  const handleScroll = () => {
+    const el = scrollRef.current
+    if (!el) return
+    const index = Math.round(el.scrollLeft / el.offsetWidth)
+    setCurrent(index)
+  }
+
+  if (photos.length === 0) {
+    return (
+      <div className="relative h-56 w-full overflow-hidden">
         <div
           className="h-full w-full"
           style={{
             background: 'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)',
           }}
         />
-      )}
+        <button
+          type="button"
+          onClick={onBack}
+          className="absolute left-3 top-3 rounded-full bg-black/30 p-2 text-white transition hover:bg-black/50"
+          aria-label="뒤로 가기"
+        >
+          ←
+        </button>
+        <span
+          className={`absolute bottom-3 right-3 rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_STYLES[d] ?? DIFFICULTY_STYLES.beginner}`}
+        >
+          {DIFFICULTY_LABEL[d] ?? '입문'}
+        </span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative h-56 w-full overflow-hidden">
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex h-full snap-x snap-mandatory overflow-x-auto scrollbar-hide"
+        style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {photos.map((url, i) => (
+          <img
+            key={i}
+            src={url}
+            alt={`코스 사진 ${i + 1}`}
+            className="h-full w-full flex-shrink-0 snap-center object-cover"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement
+              target.src = ''
+              target.style.background = 'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)'
+            }}
+          />
+        ))}
+      </div>
       <button
         type="button"
         onClick={onBack}
@@ -152,6 +195,23 @@ function CoursePhoto({
       >
         ←
       </button>
+      {photos.length > 1 && (
+        <>
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+            {photos.map((_, i) => (
+              <span
+                key={i}
+                className={`block h-1.5 rounded-full transition-all ${
+                  i === current ? 'w-4 bg-white' : 'w-1.5 bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
+          <span className="absolute top-3 right-3 rounded bg-black/40 px-2 py-0.5 text-xs text-white">
+            {current + 1}/{photos.length}
+          </span>
+        </>
+      )}
       <span
         className={`absolute bottom-3 right-3 rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_STYLES[d] ?? DIFFICULTY_STYLES.beginner}`}
       >
@@ -598,10 +658,6 @@ export function CourseDetail() {
     enabled: !!id,
   })
 
-  const photoUrl =
-    course?.photos != null && Array.isArray(course.photos) && course.photos[0]
-      ? course.photos[0]
-      : null
 
   const avgRating =
     reviews.length > 0
@@ -652,7 +708,7 @@ export function CourseDetail() {
     <div className="min-h-full bg-rl-bg pb-8">
       {/* ━━━ 1. 사진 ━━━ */}
       <CoursePhoto
-        photoUrl={photoUrl}
+        photos={Array.isArray(course.photos) ? course.photos : []}
         difficulty={course.difficulty}
         onBack={() => navigate(-1)}
       />

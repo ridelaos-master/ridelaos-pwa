@@ -3,7 +3,6 @@ import {
   FileText,
   Save,
   Loader2,
-  AlertCircle,
   Megaphone,
   ShieldCheck,
   RefreshCw,
@@ -48,7 +47,7 @@ export function AdminContent() {
     { key: string; title: string; content: string; updatedAt: string | null; id: string | null }[]
   >([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [_error, setError] = useState<string | null>(null)
   const [tableExists, setTableExists] = useState(true)
   const [savingKey, setSavingKey] = useState<string | null>(null)
   const [savedKey, setSavedKey] = useState<string | null>(null)
@@ -91,7 +90,7 @@ export function AdminContent() {
 
       // 데이터가 있으면 매핑, 없으면 기본값
       const dataMap: Record<string, ContentItem> = {}
-      ;(data || []).forEach((item: ContentItem) => {
+      ;((data || []) as ContentItem[]).forEach((item) => {
         dataMap[item.key] = item
       })
 

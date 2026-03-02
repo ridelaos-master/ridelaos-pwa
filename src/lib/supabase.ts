@@ -17,29 +17,27 @@ if (!supabaseUrl || !supabaseAnonKey) {
  * bookings INSERT: anon 사용자 허용이 필요하면 Supabase SQL Editor에서
  * supabase/bookings_rls_anon_insert.sql 실행
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyRow = Record<string, any>
+type AnyTable = { Row: AnyRow; Insert: AnyRow; Update: AnyRow; Relationships: [] }
+
 export interface Database {
   public: {
     Tables: {
-      courses: {
-        Row: Record<string, unknown>
-        Insert: Record<string, unknown>
-        Update: Record<string, unknown>
-      }
-      tour_dates: {
-        Row: Record<string, unknown>
-        Insert: Record<string, unknown>
-        Update: Record<string, unknown>
-      }
-      bookings: {
-        Row: Record<string, unknown>
-        Insert: Record<string, unknown>
-        Update: Record<string, unknown>
-      }
-      // 추가 테이블은 CLI 생성 시 채워짐
+      courses: AnyTable
+      tour_dates: AnyTable
+      bookings: AnyTable
+      reviews: AnyTable
+      site_contents: AnyTable
+      course_waypoints: AnyTable
+      completions: AnyTable
+      coupons: AnyTable
+      referrals: AnyTable
+      // 추가 테이블은 CLI 생성 시 채워짐: npx supabase gen types typescript
     }
-    Views: Record<string, unknown>
-    Functions: Record<string, unknown>
-    Enums: Record<string, unknown>
+    Views: Record<string, never>
+    Functions: Record<string, never>
+    Enums: Record<string, never>
   }
 }
 
