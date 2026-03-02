@@ -7,41 +7,38 @@ import { useFeaturedCourses, type FeaturedCourseRow } from '../hooks/useCourses'
 function HeroBanner() {
   const navigate = useNavigate()
   return (
-    <section
-      className="relative h-72 w-full overflow-hidden rounded-b-2xl"
-      style={{
-        background: 'linear-gradient(135deg, #1A3A2A 0%, #2D6A4F 100%)',
-      }}
-    >
-      <span
-        className="absolute bottom-4 right-4 text-6xl opacity-20"
-        role="img"
-        aria-hidden
-      >
-        🚗
-      </span>
-      <div className="absolute bottom-0 left-0 right-0 p-4">
-        <div className="mb-3 flex flex-wrap gap-2">
-          <span className="rounded-full bg-white/20 px-3 py-1 text-xs text-white">
-            7개 코스
-          </span>
-          <span className="rounded-full bg-white/20 px-3 py-1 text-xs text-white">
-            3년 연속
-          </span>
-          <span className="rounded-full bg-white/20 px-3 py-1 text-xs text-white">
-            안전 최우선
-          </span>
+    <section className="relative h-72 w-full overflow-hidden rounded-b-3xl">
+      <img
+        src="/images/hero-banner.png"
+        alt="라오스 오토바이 투어"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
+
+      <div className="relative z-10 flex h-full flex-col justify-end px-5 pb-6">
+        <div className="mb-3 flex gap-2">
+          {['🏍️ 7개 코스', '🛡️ 안전 최우선', '⭐ 3년 연속'].map((t) => (
+            <span
+              key={t}
+              className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm"
+            >
+              {t}
+            </span>
+          ))}
         </div>
-        <h2 className="text-2xl font-bold text-white">라오스를 달리다</h2>
-        <p className="mt-1 text-sm text-white/80">
+
+        <h2 className="text-2xl font-extrabold leading-tight text-white drop-shadow-lg">
+          라오스를 달리다
+        </h2>
+        <p className="mt-1 text-sm text-white/90 drop-shadow">
           오토바이로 만나는 라오스의 속살
         </p>
+
         <button
-          type="button"
           onClick={() => navigate('/courses')}
-          className="mt-3 rounded-btn bg-rl-orange px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:opacity-90"
+          className="mt-4 flex h-11 w-40 items-center justify-center rounded-btn bg-rl-orange text-sm font-bold text-white shadow-lg transition hover:opacity-90"
         >
-          코스 보기
+          🏍️ 코스 보기
         </button>
       </div>
     </section>
