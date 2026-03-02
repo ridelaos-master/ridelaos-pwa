@@ -17,6 +17,8 @@ const BookingComplete = lazy(() => import('./pages/BookingComplete').then(m => (
 const MyPage = lazy(() => import('./pages/MyPage').then(m => ({ default: m.MyPage })))
 const Safety = lazy(() => import('./pages/Safety'))
 const BikeRental = lazy(() => import('./pages/BikeRental').then(m => ({ default: m.BikeRental })))
+const TravelInfo = lazy(() => import('./pages/TravelInfo').then(m => ({ default: m.TravelInfo })))
+const TravelInfoDetail = lazy(() => import('./pages/TravelInfoDetail').then(m => ({ default: m.TravelInfoDetail })))
 
 // 관리자 페이지 (lazy)
 const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'))
@@ -59,6 +61,8 @@ function App() {
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/safety" element={<Safety />} />
               <Route path="/rent" element={<BikeRental />} />
+              <Route path="/travel-info" element={<TravelInfo />} />
+              <Route path="/travel-info/:categoryId" element={<TravelInfoDetail />} />
             </Route>
 
             {/* 관리자 라우트 */}

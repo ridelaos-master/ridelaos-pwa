@@ -6,15 +6,15 @@ import { useFeaturedCourses, type FeaturedCourseRow } from '../hooks/useCourses'
 /* ----- HeroBanner ----- */
 function HeroBanner() {
   return (
-    <section className="relative h-72 w-full overflow-hidden rounded-b-3xl">
+    <section className="relative h-80 w-full overflow-hidden rounded-b-3xl">
       <img
         src="/images/hero-banner.png"
         alt="라오스 오토바이 투어"
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover object-top"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent" />
 
-      <div className="relative z-10 flex h-full flex-col justify-end px-5 pb-6">
+      <div className="relative z-10 flex h-full flex-col justify-end px-5 pb-5">
         <div className="mb-3 flex gap-2">
           {['🏍️ 7개 코스', '🛡️ 안전 최우선', '⭐ 3년 연속'].map((t) => (
             <span
@@ -62,13 +62,13 @@ function QuickMenu() {
           <span className="text-sm font-medium text-rl-green">바이크 렌트</span>
         </button>
         <button
-          onClick={() => navigate('/safety')}
+          onClick={() => navigate('/travel-info')}
           className="flex flex-1 flex-col items-center gap-2 rounded-card bg-white py-4 shadow-card transition active:scale-95"
         >
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-2xl">
-            🛡️
+            📖
           </span>
-          <span className="text-sm font-medium text-rl-green">안전 정보</span>
+          <span className="text-sm font-medium text-rl-green">여행 정보</span>
         </button>
       </div>
     </section>
