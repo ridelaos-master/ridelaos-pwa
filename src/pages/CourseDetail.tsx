@@ -667,7 +667,7 @@ export function CourseDetail() {
   // details JSON 파싱 (하위호환: null이거나 빈 객체면 무시)
   const details: CourseDetails | null =
     course?.details && typeof course.details === 'object' && Object.keys(course.details).length > 0
-      ? (course.details as CourseDetails)
+      ? (course.details as unknown as CourseDetails)
       : null
 
   /* ----- Loading ----- */

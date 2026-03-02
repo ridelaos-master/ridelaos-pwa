@@ -15,6 +15,8 @@ export interface Course {
   offline_tile_url: string | null
   description_ko: string | null
   photos: string[] | null
+  tagline: string | null
+  details: Record<string, unknown> | null
   [key: string]: unknown
 }
 
@@ -42,7 +44,7 @@ async function fetchCourse(id: string): Promise<Course | null> {
 /** 홈 추천 코스용 필드만 조회 (상위 3개) */
 export type FeaturedCourseRow = Pick<
   Course,
-  'id' | 'name_ko' | 'difficulty' | 'duration_days' | 'price_krw'
+  'id' | 'name_ko' | 'difficulty' | 'duration_days' | 'price_krw' | 'tagline' | 'photos' | 'details'
 >
 
 async function fetchFeaturedCourses(): Promise<FeaturedCourseRow[]> {
