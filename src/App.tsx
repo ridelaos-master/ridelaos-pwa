@@ -19,6 +19,7 @@ const Safety = lazy(() => import('./pages/Safety'))
 const BikeRental = lazy(() => import('./pages/BikeRental').then(m => ({ default: m.BikeRental })))
 const TravelInfo = lazy(() => import('./pages/TravelInfo').then(m => ({ default: m.TravelInfo })))
 const TravelInfoDetail = lazy(() => import('./pages/TravelInfoDetail').then(m => ({ default: m.TravelInfoDetail })))
+const ReviewWritePage = lazy(() => import('./pages/ReviewWritePage'))
 
 // 관리자 페이지 (lazy)
 const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'))
@@ -54,6 +55,7 @@ function App() {
             <Route path="/booking/:dateId" element={<Booking />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/booking-complete" element={<BookingComplete />} />
+            <Route path="/review/write" element={<ReviewWritePage />} />
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/courses" element={<CourseList />} />

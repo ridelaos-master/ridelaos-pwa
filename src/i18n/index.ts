@@ -5,17 +5,19 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import ko from './locales/ko.json'
 import en from './locales/en.json'
 import ja from './locales/ja.json'
+import lo from './locales/lo.json'
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
-      ko: { translation: ko },
-      en: { translation: en },
+      ko: { translation: ko, review: (ko as any).review },
+      en: { translation: en, review: (en as any).review },
       ja: { translation: ja },
+      lo: { translation: lo, review: (lo as any).review },
     },
-    supportedLngs: ['ko', 'en', 'ja'],
+    supportedLngs: ['ko', 'en', 'ja', 'lo'],
     fallbackLng: 'ko',
     interpolation: { escapeValue: false },
     detection: {

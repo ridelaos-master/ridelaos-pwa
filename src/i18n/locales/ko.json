@@ -106,5 +106,72 @@
     "myBookings": "내 예약",
     "noBookings": "예약 내역이 없습니다",
     "writeReview": "리뷰 작성"
+  },
+  "review": {
+    "form": {
+      "title": "리뷰 작성",
+      "ratingLabel": "이 투어는 어떠셨나요?",
+      "titleLabel": "리뷰 제목",
+      "titlePlaceholder": "한 줄로 경험을 요약해주세요",
+      "contentLabel": "상세 리뷰",
+      "contentPlaceholder": "투어 경험을 자세히 알려주세요. 도로 상태, 풍경, 가이드 서비스 등 다른 라이더에게 도움이 될 정보를 공유해주세요. (최소 10자)",
+      "submit": "리뷰 등록",
+      "submitting": "등록 중...",
+      "error": "리뷰 등록에 실패했습니다. 다시 시도해주세요."
+    },
+    "photo": {
+      "label": "사진 첨부",
+      "add": "추가",
+      "invalidType": "이미지 파일만 업로드 가능합니다.",
+      "tooLarge": "5MB 이하의 파일만 업로드 가능합니다."
+    },
+    "card": {
+      "anonymous": "익명 라이더",
+      "verified": "예약 인증",
+      "helpful": "도움됨",
+      "edit": "수정",
+      "delete": "삭제",
+      "report": "신고"
+    },
+    "summary": {
+      "totalReviews": "{{count}}개의 리뷰"
+    },
+    "sort": {
+      "latest": "최신순",
+      "highest": "높은 평점순",
+      "lowest": "낮은 평점순",
+      "helpful": "도움순"
+    },
+    "filter": {
+      "all": "전체",
+      "5star": "5점",
+      "4star": "4점",
+      "3star": "3점",
+      "2star": "2점",
+      "1star": "1점",
+      "withPhotos": "사진 리뷰"
+    },
+    "list": {
+      "total": "리뷰 {{count}}개",
+      "empty": "아직 리뷰가 없습니다. 첫 번째 리뷰를 남겨보세요!"
+    },
+    "section": {
+      "title": "리뷰",
+      "writeReview": "리뷰 쓰기"
+    },
+    "report": {
+      "title": "리뷰 신고",
+      "reasons": {
+        "spam": "스팸 또는 광고",
+        "inappropriate": "부적절한 내용",
+        "fake": "허위 리뷰",
+        "offensive": "모욕적인 표현",
+        "other": "기타"
+      },
+      "descriptionPlaceholder": "신고 사유를 입력해주세요",
+      "submit": "신고하기",
+      "submitting": "신고 중...",
+      "success": "신고가 접수되었습니다."
+    }
   }
 }

@@ -106,5 +106,72 @@
     "myBookings": "My Bookings",
     "noBookings": "No bookings yet",
     "writeReview": "Write Review"
+  },
+  "review": {
+    "form": {
+      "title": "Write a Review",
+      "ratingLabel": "How was your tour?",
+      "titleLabel": "Review Title",
+      "titlePlaceholder": "Summarize your experience in one line",
+      "contentLabel": "Detailed Review",
+      "contentPlaceholder": "Share your detailed tour experience. Road conditions, scenery, guide service - any info helpful to other riders. (min. 10 characters)",
+      "submit": "Submit Review",
+      "submitting": "Submitting...",
+      "error": "Failed to submit review. Please try again."
+    },
+    "photo": {
+      "label": "Attach Photos",
+      "add": "Add",
+      "invalidType": "Only image files are allowed.",
+      "tooLarge": "Files must be under 5MB."
+    },
+    "card": {
+      "anonymous": "Anonymous Rider",
+      "verified": "Verified Booking",
+      "helpful": "Helpful",
+      "edit": "Edit",
+      "delete": "Delete",
+      "report": "Report"
+    },
+    "summary": {
+      "totalReviews": "{{count}} reviews"
+    },
+    "sort": {
+      "latest": "Latest",
+      "highest": "Highest Rated",
+      "lowest": "Lowest Rated",
+      "helpful": "Most Helpful"
+    },
+    "filter": {
+      "all": "All",
+      "5star": "5 Stars",
+      "4star": "4 Stars",
+      "3star": "3 Stars",
+      "2star": "2 Stars",
+      "1star": "1 Stars",
+      "withPhotos": "With Photos"
+    },
+    "list": {
+      "total": "{{count}} reviews",
+      "empty": "No reviews yet. Be the first to leave one!"
+    },
+    "section": {
+      "title": "Reviews",
+      "writeReview": "Write Review"
+    },
+    "report": {
+      "title": "Report Review",
+      "reasons": {
+        "spam": "Spam or advertising",
+        "inappropriate": "Inappropriate content",
+        "fake": "Fake review",
+        "offensive": "Offensive language",
+        "other": "Other"
+      },
+      "descriptionPlaceholder": "Please describe the reason",
+      "submit": "Submit Report",
+      "submitting": "Submitting...",
+      "success": "Report has been submitted."
+    }
   }
 }

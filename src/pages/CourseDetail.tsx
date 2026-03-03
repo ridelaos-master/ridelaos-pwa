@@ -7,6 +7,7 @@ import { MapboxMap } from '../components/MapboxMap'
 import OfflineMapManager from '../components/OfflineMapManager'
 import { supabase } from '../lib/supabase'
 import type { CourseWaypoint } from '../hooks/useOfflineMap'
+import ReviewSection from '../components/review/ReviewSection'
 
 /* ===== Types ===== */
 interface ItineraryDay {
@@ -619,21 +620,6 @@ function TourDateCard({
   )
 }
 
-/* ===== Review row (기존 유지) ===== */
-function ReviewRow({ review }: { review: Review }) {
-  const stars = '★'.repeat(Math.min(5, Math.max(0, review.rating)))
-  const dateStr =
-    review.created_at != null
-      ? new Date(review.created_at).toLocaleDateString('ko-KR')
-      : ''
-  return (
-    <div className="border-b border-gray-100 py-3 last:border-0">
-      <p className="text-sm text-rl-orange">{stars}</p>
-      <p className="mt-1 text-sm text-rl-green">{review.content ?? '-'}</p>
-      <p className="mt-1 text-xs text-gray-400">{dateStr}</p>
-    </div>
-  )
-}
 
 /* ================================================ */
 /* ===== CourseDetail Main Component ============== */
@@ -645,7 +631,7 @@ export function CourseDetail() {
 
   const { data: course, isLoading: courseLoading, isError: courseError } = useCourse(id)
   const { data: tourDates = [], isLoading: datesLoading, isError: datesError } = useTourDates(id)
-  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
+  const { data: reviews = [] } = useQuery({
     queryKey: ['reviews', id],
     queryFn: () => fetchReviews(id!),
     enabled: !!id,
@@ -841,30 +827,10 @@ export function CourseDetail() {
           )}
         </section>
 
-        {/* ━━━ 13. 리뷰 ━━━ */}
-        <section className="mt-4 mb-24 rounded-card bg-white p-4 shadow-card">
-          <h2 className="font-bold text-rl-green">
-            ⭐ 리뷰
-            {avgRating != null && (
-              <span className="ml-2 text-sm font-normal text-rl-orange">
-                {avgRating.toFixed(1)}점 ({reviews.length}건)
-              </span>
-            )}
-          </h2>
-          {reviewsLoading && (
-            <div className="mt-3 h-20 animate-pulse rounded bg-gray-100" />
-          )}
-          {!reviewsLoading && reviews.length === 0 && (
-            <p className="mt-3 text-sm text-gray-500">아직 리뷰가 없습니다</p>
-          )}
-          {!reviewsLoading && reviews.length > 0 && (
-            <div className="mt-3">
-              {reviews.map((review) => (
-                <ReviewRow key={review.id} review={review} />
-              ))}
-            </div>
-          )}
-        </section>
+        {/* ━━━ 13. 리뷰 (S7-07 ReviewSection) ━━━ */}
+        <div className="mt-4 mb-24 rounded-card bg-white p-4 shadow-card">
+          <ReviewSection courseId={id!} courseName={course.name_ko} />
+        </div>
       </div>
     </div>
   )
