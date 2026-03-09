@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useFeaturedCourses, type FeaturedCourseRow } from '../hooks/useCourses'
+import { COURSE_EN_DATA } from '../data/courseDataEn'
 
 /* ----- HeroBanner ----- */
 function HeroBanner() {
@@ -114,15 +115,18 @@ const FEATURED_COURSES_FALLBACK: FeaturedCourseFallback[] = [
 ]
 
 const DIFFICULTY_STYLES: Record<string, string> = {
+  // English keys (filter)
   beginner: 'bg-green-500/90 text-white',
   intermediate: 'bg-amber-500/90 text-white',
   advanced: 'bg-red-500/90 text-white',
-}
-
-const DIFFICULTY_LABEL: Record<string, string> = {
-  beginner: '입문',
-  intermediate: '중급',
-  advanced: '고급',
+  // Korean keys (DB)
+  '입문': 'bg-green-500/90 text-white',
+  '초급': 'bg-green-500/90 text-white',
+  '초중급': 'bg-amber-500/90 text-white',
+  '중급': 'bg-amber-500/90 text-white',
+  '중상급': 'bg-amber-500/90 text-white',
+  '상급': 'bg-red-500/90 text-white',
+  '최상급': 'bg-red-500/90 text-white',
 }
 
 /* ----- Skeleton card ----- */
@@ -140,13 +144,21 @@ function FeaturedCourseCard({
   course: FeaturedCourseRow
   onClick: () => void
 }) {
+  const { t, i18n } = useTranslation()
+  const isEn = i18n.language === 'en'
+  const enData = COURSE_EN_DATA[course.id]
   const difficulty = (course.difficulty ?? 'beginner') as string
   const period =
-    course.duration_days != null ? `${course.duration_days}일` : '-'
+    course.duration_days != null ? t('courses.card.days', { count: course.duration_days }) : '-'
   const price =
     course.price_krw != null
       ? `₩${course.price_krw.toLocaleString()}`
       : '-'
+
+  const displayName = isEn ? (enData?.name_en ?? course.name_ko) : course.name_ko
+  const displayTagline = isEn
+    ? (enData?.tagline_en ?? null)
+    : (course.tagline ?? null)
 
   const photoUrl =
     course.photos != null && Array.isArray(course.photos) && course.photos[0]
@@ -174,7 +186,7 @@ function FeaturedCourseCard({
       {photoUrl ? (
         <img
           src={photoUrl}
-          alt={course.name_ko}
+          alt={displayName}
           className="h-24 w-full object-cover"
           loading="lazy"
           onError={(e) => {
@@ -200,14 +212,14 @@ function FeaturedCourseCard({
         <span
           className={`inline-block rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_STYLES[difficulty] ?? DIFFICULTY_STYLES.beginner}`}
         >
-          {DIFFICULTY_LABEL[difficulty] ?? '입문'}
+          {t(`courses.level.${difficulty}`, difficulty)}
         </span>
         <h3 className="mt-2 font-bold text-sm text-rl-green">
-          {course.name_ko}
+          {displayName}
         </h3>
-        {course.tagline && (
+        {displayTagline && (
           <p className="mt-0.5 text-xs text-gray-400 line-clamp-1">
-            {course.tagline}
+            {displayTagline}
           </p>
         )}
         {details?.level_stars != null && (
@@ -218,7 +230,7 @@ function FeaturedCourseCard({
               ))}
             </span>
             {details.level_label && (
-              <span className="text-xs text-gray-400">{details.level_label}</span>
+              <span className="text-xs text-gray-400">{t(`courses.level.${details.level_label}`, details.level_label)}</span>
             )}
           </div>
         )}
@@ -238,6 +250,7 @@ function FeaturedCourseCardFallback({
   course: FeaturedCourseFallback
   onClick: () => void
 }) {
+  const { t } = useTranslation()
   return (
     <article
       role="button"
@@ -261,7 +274,7 @@ function FeaturedCourseCardFallback({
         <span
           className={`inline-block rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_STYLES[course.difficulty]}`}
         >
-          {DIFFICULTY_LABEL[course.difficulty]}
+          {t(`courses.filter.${course.difficulty}`, course.difficulty)}
         </span>
         <h3 className="mt-2 font-bold text-sm text-rl-green">{course.name}</h3>
         <p className="mt-1 text-xs text-gray-500">

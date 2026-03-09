@@ -46,7 +46,25 @@
       "중급": "중급",
       "중상급": "중상급",
       "상급": "상급",
-      "최상급": "최상급"
+      "최상급": "최상급",
+      "입문/초급": "입문/초급",
+      "완전 초급": "완전 초급",
+      "중급 오프로드": "중급 오프로드",
+      "최상급 원정": "최상급 원정"
+    },
+    "filter": {
+      "all": "전체",
+      "beginner": "입문",
+      "intermediate": "중급",
+      "advanced": "고급"
+    },
+    "card": {
+      "days": "{{count}}일",
+      "minPax": "최소 {{count}}명",
+      "count": "{{count}}개 코스",
+      "loadError": "코스를 불러오지 못했습니다",
+      "retry": "재시도",
+      "noResult": "해당하는 코스가 없습니다"
     }
   },
   "booking": {
@@ -88,11 +106,11 @@
     "rideLaosTip": "💡 Ride Laos 팁",
     "categories": {
       "weather": "날씨·시즌",
-      "regions": "지역 정보",
+      "rider-routes": "지역 정보",
       "money": "환전·결제",
       "telecom": "통신·인터넷",
-      "bike-maintenance": "오토바이 정비",
-      "roads": "주유·도로",
+      "bike": "오토바이 정비",
+      "riding": "주유·도로",
       "medical": "의료·안전",
       "food": "음식·맛집",
       "history": "역사·문화",
@@ -173,5 +191,72 @@
       "submitting": "신고 중...",
       "success": "신고가 접수되었습니다."
     }
+  },
+  "safety": {
+    "title": "안전 센터",
+    "subtitle": "긴급 상황 시 SOS를 보내거나 전화하세요",
+    "sosSending": "발송 중...",
+    "sosConfirm": "한 번 더 누르면 SOS가 발송됩니다",
+    "sosDefault": "긴급 상황 시 SOS 버튼을 누르세요",
+    "lastSent": "마지막 발송: {{time}}",
+    "myLocation": "내 위치",
+    "coordinates": "좌표",
+    "accuracy": "정확도",
+    "speed": "속도",
+    "viewOnMap": "Google Maps에서 보기",
+    "trackLocation": "위치 추적",
+    "stopTracking": "추적 중지",
+    "findingLocation": "위치를 찾는 중...",
+    "locationHint": "위치 추적을 시작하면 현재 좌표가 표시됩니다",
+    "emergencyContacts": "비상연락처",
+    "addContact": "추가",
+    "noContacts": "비상연락처를 추가해주세요",
+    "addContactTitle": "비상연락처 추가",
+    "labelName": "이름",
+    "labelPhone": "전화번호",
+    "labelRelation": "관계",
+    "namePlaceholder": "홍길동",
+    "phonePlaceholder": "010-0000-0000",
+    "addButton": "추가하기",
+    "relations": {
+      "가족": "가족",
+      "친구": "친구",
+      "가이드": "가이드",
+      "동행자": "동행자",
+      "기타": "기타"
+    },
+    "laosNumbers": "라오스 긴급 전화번호",
+    "numbers": {
+      "police": "경찰",
+      "fireAmbulance": "소방/구급",
+      "touristPolice": "관광경찰",
+      "koreanEmbassy": "한국대사관",
+      "rideLaos": "Ride Laos 긴급"
+    },
+    "safetyGuide": "안전 가이드",
+    "tips": {
+      "helmet": "헬멧은 반드시 착용하세요",
+      "rainy": "우기(5~10월)에는 도로 상태에 주의하세요",
+      "fuel": "출발 전 연료를 가득 채우세요",
+      "offlineMap": "오프라인 지도를 미리 다운로드하세요",
+      "night": "야간 주행은 가급적 피하세요",
+      "water": "충분한 물과 간식을 준비하세요",
+      "documents": "여권 사본과 보험 서류를 지참하세요",
+      "hospital": "가까운 병원 위치를 미리 확인하세요"
+    },
+    "sosSuccess": "SOS가 발송되었습니다.",
+    "sosFail": "SOS 발송에 실패했습니다. 직접 전화해주세요.",
+    "sosMethod": {
+      "kakao": "카카오톡으로",
+      "sms": "SMS로",
+      "share": "공유 기능으로",
+      "clipboard": "클립보드에 복사"
+    }
+  },
+  "push": {
+    "title": "투어 알림을 받으시겠습니까?",
+    "description": "출발 D-7, D-1 리마인더를 보내드립니다",
+    "allow": "알림 허용",
+    "later": "나중에"
   }
 }

@@ -46,7 +46,25 @@
       "중급": "Intermediate",
       "중상급": "Mid-Advanced",
       "상급": "Advanced",
-      "최상급": "Expert"
+      "최상급": "Expert",
+      "입문/초급": "Beginner/Easy",
+      "완전 초급": "Complete Beginner",
+      "중급 오프로드": "Intermediate Off-Road",
+      "최상급 원정": "Expert Expedition"
+    },
+    "filter": {
+      "all": "All",
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "card": {
+      "days": "{{count}} days",
+      "minPax": "Min {{count}} pax",
+      "count": "{{count}} courses",
+      "loadError": "Failed to load courses",
+      "retry": "Retry",
+      "noResult": "No courses found"
     }
   },
   "booking": {
@@ -88,11 +106,11 @@
     "rideLaosTip": "💡 Ride Laos Tip",
     "categories": {
       "weather": "Weather & Seasons",
-      "regions": "Regions",
+      "rider-routes": "Rider Routes",
       "money": "Money & Payment",
       "telecom": "SIM & Internet",
-      "bike-maintenance": "Bike Maintenance",
-      "roads": "Roads & Fuel",
+      "bike": "Bike Maintenance",
+      "riding": "Roads & Fuel",
       "medical": "Medical & Safety",
       "food": "Food & Dining",
       "history": "History & Culture",
@@ -173,5 +191,72 @@
       "submitting": "Submitting...",
       "success": "Report has been submitted."
     }
+  },
+  "safety": {
+    "title": "Safety Center",
+    "subtitle": "Send SOS or call for help in an emergency",
+    "sosSending": "Sending...",
+    "sosConfirm": "Press again to send SOS",
+    "sosDefault": "Press the SOS button in an emergency",
+    "lastSent": "Last sent: {{time}}",
+    "myLocation": "My Location",
+    "coordinates": "Coordinates",
+    "accuracy": "Accuracy",
+    "speed": "Speed",
+    "viewOnMap": "View on Google Maps",
+    "trackLocation": "Track Location",
+    "stopTracking": "Stop Tracking",
+    "findingLocation": "Finding location...",
+    "locationHint": "Your current coordinates will be displayed when tracking starts",
+    "emergencyContacts": "Emergency Contacts",
+    "addContact": "Add",
+    "noContacts": "Add emergency contacts",
+    "addContactTitle": "Add Emergency Contact",
+    "labelName": "Name",
+    "labelPhone": "Phone",
+    "labelRelation": "Relation",
+    "namePlaceholder": "John Doe",
+    "phonePlaceholder": "+856-20-0000-0000",
+    "addButton": "Add",
+    "relations": {
+      "가족": "Family",
+      "친구": "Friend",
+      "가이드": "Guide",
+      "동행자": "Companion",
+      "기타": "Other"
+    },
+    "laosNumbers": "Laos Emergency Numbers",
+    "numbers": {
+      "police": "Police",
+      "fireAmbulance": "Fire/Ambulance",
+      "touristPolice": "Tourist Police",
+      "koreanEmbassy": "Korean Embassy",
+      "rideLaos": "Ride Laos Emergency"
+    },
+    "safetyGuide": "Safety Guide",
+    "tips": {
+      "helmet": "Always wear a helmet",
+      "rainy": "Watch road conditions during rainy season (May–Oct)",
+      "fuel": "Fill up before departure",
+      "offlineMap": "Download offline maps in advance",
+      "night": "Avoid riding at night if possible",
+      "water": "Carry plenty of water and snacks",
+      "documents": "Bring copies of passport and insurance",
+      "hospital": "Check nearby hospital locations in advance"
+    },
+    "sosSuccess": "SOS has been sent.",
+    "sosFail": "Failed to send SOS. Please call directly.",
+    "sosMethod": {
+      "kakao": "via KakaoTalk",
+      "sms": "via SMS",
+      "share": "via Share",
+      "clipboard": "copied to clipboard"
+    }
+  },
+  "push": {
+    "title": "Would you like to receive tour alerts?",
+    "description": "We'll send departure D-7 and D-1 reminders",
+    "allow": "Allow",
+    "later": "Later"
   }
 }

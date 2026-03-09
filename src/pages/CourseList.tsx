@@ -2,25 +2,22 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useCourses, type Course } from '../hooks/useCourses'
+import { COURSE_EN_DATA } from '../data/courseDataEn'
 
 /* ----- Filter: difficulty tab value ----- */
-const DIFFICULTY_TABS = [
-  { value: '', label: '전체' },
-  { value: 'beginner', label: '입문' },
-  { value: 'intermediate', label: '중급' },
-  { value: 'advanced', label: '고급' },
-] as const
+const DIFFICULTY_TAB_VALUES = ['', 'beginner', 'intermediate', 'advanced'] as const
 
 const DIFFICULTY_BADGE_STYLES: Record<string, string> = {
   beginner: 'bg-green-500 text-white',
   intermediate: 'bg-amber-500 text-white',
   advanced: 'bg-red-500 text-white',
-}
-
-const DIFFICULTY_LABEL: Record<string, string> = {
-  beginner: '입문',
-  intermediate: '중급',
-  advanced: '고급',
+  '입문': 'bg-green-500 text-white',
+  '초급': 'bg-green-500 text-white',
+  '초중급': 'bg-amber-500 text-white',
+  '중급': 'bg-amber-500 text-white',
+  '중상급': 'bg-amber-500 text-white',
+  '상급': 'bg-red-500 text-white',
+  '최상급': 'bg-red-500 text-white',
 }
 
 /* ----- FilterTabs (IMPROVED: 개수 표시 추가) ----- */
@@ -33,23 +30,25 @@ function FilterTabs({
   onChange: (v: string) => void
   counts: Record<string, number>
 }) {
+  const { t } = useTranslation()
   return (
     <div className="-mx-4 overflow-x-auto px-4 pb-2">
       <div className="flex gap-2">
-        {DIFFICULTY_TABS.map((tab) => {
-          const count = tab.value === '' ? counts.all : (counts[tab.value] ?? 0)
+        {DIFFICULTY_TAB_VALUES.map((tabValue) => {
+          const filterKey = tabValue || 'all'
+          const count = tabValue === '' ? counts.all : (counts[tabValue] ?? 0)
           return (
             <button
-              key={tab.value || 'all'}
+              key={filterKey}
               type="button"
-              onClick={() => onChange(tab.value)}
+              onClick={() => onChange(tabValue)}
               className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                value === tab.value
+                value === tabValue
                   ? 'bg-rl-green text-white'
                   : 'border border-rl-green/30 bg-white text-rl-green hover:bg-rl-bg'
               }`}
             >
-              {tab.label}
+              {t(`courses.filter.${filterKey}`)}
               <span className="ml-1 text-xs opacity-70">{count}</span>
             </button>
           )
@@ -81,19 +80,24 @@ function LevelStars({ stars }: { stars: number }) {
 
 /* ----- CourseCard (IMPROVED: tagline, photos, level stars) ----- */
 function CourseCard({ course }: { course: Course }) {
+  const { t, i18n } = useTranslation()
+  const isEn = i18n.language === 'en'
+  const enData = COURSE_EN_DATA[course.id]
   const difficulty = (course.difficulty ?? 'beginner') as string
   const distance =
     course.distance_km != null ? `${course.distance_km}km` : '-'
   const period =
-    course.duration_days != null ? `${course.duration_days}일` : '-'
-  const minPax = course.min_pax != null ? `최소 ${course.min_pax}명` : ''
+    course.duration_days != null ? t('courses.card.days', { count: course.duration_days }) : '-'
+  const minPax = course.min_pax != null ? t('courses.card.minPax', { count: course.min_pax }) : ''
   const price =
     course.price_krw != null
       ? `₩${course.price_krw.toLocaleString()}`
       : '-'
 
-  // tagline (S6-01)
-  const tagline = (course as Record<string, unknown>).tagline as string | null
+  // tagline (S6-01) — EN 분기
+  const tagline = isEn
+    ? (enData?.tagline_en ?? null)
+    : ((course as Record<string, unknown>).tagline as string | null)
 
   // details에서 level 정보 추출
   const details = (course as Record<string, unknown>).details as Record<string, unknown> | null
@@ -139,7 +143,7 @@ function CourseCard({ course }: { course: Course }) {
         <span
           className={`absolute left-3 top-3 rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_BADGE_STYLES[difficulty] ?? DIFFICULTY_BADGE_STYLES.beginner}`}
         >
-          {DIFFICULTY_LABEL[difficulty] ?? '입문'}
+          {t(`courses.level.${difficulty}`, difficulty)}
         </span>
         {/* 기간/거리 오버레이 */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-3 pb-2 pt-6">
@@ -154,12 +158,12 @@ function CourseCard({ course }: { course: Course }) {
       {/* 카드 본문 */}
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-bold text-base text-rl-green">{course.name_ko}</h3>
+          <h3 className="font-bold text-base text-rl-green">{isEn ? (enData?.name_en ?? course.name_ko) : course.name_ko}</h3>
           {levelStars != null && (
             <div className="shrink-0 flex flex-col items-end">
               <LevelStars stars={levelStars} />
               {levelLabel && (
-                <span className="text-xs text-gray-400 mt-0.5">{levelLabel}</span>
+                <span className="text-xs text-gray-400 mt-0.5">{t(`courses.level.${levelLabel}`, levelLabel)}</span>
               )}
             </div>
           )}
@@ -207,7 +211,7 @@ export function CourseList() {
     <div className="min-h-full bg-rl-bg">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-xl font-bold text-rl-green">{t('courses.title')}</h1>
-        <span className="text-sm text-gray-400">{courses.length}개 코스</span>
+        <span className="text-sm text-gray-400">{t('courses.card.count', { count: courses.length })}</span>
       </div>
 
       <FilterTabs
@@ -228,20 +232,20 @@ export function CourseList() {
 
         {!isLoading && isError && (
           <div className="rounded-card bg-white p-6 text-center shadow-card">
-            <p className="text-rl-green">코스를 불러오지 못했습니다</p>
+            <p className="text-rl-green">{t('courses.card.loadError')}</p>
             <button
               type="button"
               onClick={() => refetch()}
               className="mt-3 rounded-btn bg-rl-green px-4 py-2 text-sm font-medium text-white transition hover:opacity-90"
             >
-              재시도
+              {t('courses.card.retry')}
             </button>
           </div>
         )}
 
         {!isLoading && !isError && filteredCourses.length === 0 && (
           <div className="rounded-card bg-white p-6 text-center shadow-card">
-            <p className="text-gray-500">해당하는 코스가 없습니다</p>
+            <p className="text-gray-500">{t('courses.card.noResult')}</p>
           </div>
         )}
 

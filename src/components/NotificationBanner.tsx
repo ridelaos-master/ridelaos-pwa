@@ -3,10 +3,12 @@
 // 홈 또는 예약 완료 페이지에 표시
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Bell, X } from 'lucide-react';
 import { usePushNotification } from '../hooks/usePushNotification';
 
 export default function NotificationBanner() {
+  const { t } = useTranslation();
   const { permission, requestPermission } = usePushNotification();
   const [dismissed, setDismissed] = useState(() => {
     return localStorage.getItem('notification-banner-dismissed') === 'true';
@@ -34,10 +36,10 @@ export default function NotificationBanner() {
         </div>
         <div className="flex-1">
           <p className="text-sm font-medium text-rl-green">
-            투어 알림을 받으시겠습니까?
+            {t('push.title')}
           </p>
           <p className="mt-1 text-xs text-gray-400">
-            출발 D-7, D-1 리마인더를 보내드립니다
+            {t('push.description')}
           </p>
           <div className="mt-3 flex gap-2">
             <button
@@ -45,14 +47,14 @@ export default function NotificationBanner() {
               onClick={handleAllow}
               className="rounded-btn bg-rl-orange px-4 py-2 text-xs font-bold text-white active:opacity-80"
             >
-              알림 허용
+              {t('push.allow')}
             </button>
             <button
               type="button"
               onClick={handleDismiss}
               className="rounded-btn px-4 py-2 text-xs text-gray-400 active:text-gray-600"
             >
-              나중에
+              {t('push.later')}
             </button>
           </div>
         </div>

@@ -46,7 +46,25 @@
       "중급": "中級",
       "중상급": "中上級",
       "상급": "上級",
-      "최상급": "最上級"
+      "최상급": "最上級",
+      "입문/초급": "入門/初級",
+      "완전 초급": "完全初級",
+      "중급 오프로드": "中級オフロード",
+      "최상급 원정": "最上級遠征"
+    },
+    "filter": {
+      "all": "全て",
+      "beginner": "入門",
+      "intermediate": "中級",
+      "advanced": "上級"
+    },
+    "card": {
+      "days": "{{count}}日間",
+      "minPax": "最少{{count}}名",
+      "count": "{{count}}コース",
+      "loadError": "コースを読み込めませんでした",
+      "retry": "再試行",
+      "noResult": "該当するコースがありません"
     }
   },
   "booking": {
@@ -88,11 +106,11 @@
     "rideLaosTip": "💡 Ride Laos ヒント",
     "categories": {
       "weather": "天気・シーズン",
-      "regions": "地域情報",
+      "rider-routes": "地域情報",
       "money": "両替・決済",
       "telecom": "通信・ネット",
-      "bike-maintenance": "バイク整備",
-      "roads": "給油・道路",
+      "bike": "バイク整備",
+      "riding": "給油・道路",
       "medical": "医療・安全",
       "food": "グルメ",
       "history": "歴史・文化",
@@ -106,5 +124,72 @@
     "myBookings": "予約一覧",
     "noBookings": "予約はまだありません",
     "writeReview": "レビューを書く"
+  },
+  "safety": {
+    "title": "安全センター",
+    "subtitle": "緊急時にSOSを送信するか電話してください",
+    "sosSending": "送信中...",
+    "sosConfirm": "もう一度押すとSOSが送信されます",
+    "sosDefault": "緊急時にSOSボタンを押してください",
+    "lastSent": "最終送信: {{time}}",
+    "myLocation": "現在地",
+    "coordinates": "座標",
+    "accuracy": "精度",
+    "speed": "速度",
+    "viewOnMap": "Google Mapsで見る",
+    "trackLocation": "位置追跡",
+    "stopTracking": "追跡停止",
+    "findingLocation": "位置を取得中...",
+    "locationHint": "位置追跡を開始すると現在の座標が表示されます",
+    "emergencyContacts": "緊急連絡先",
+    "addContact": "追加",
+    "noContacts": "緊急連絡先を追加してください",
+    "addContactTitle": "緊急連絡先を追加",
+    "labelName": "名前",
+    "labelPhone": "電話番号",
+    "labelRelation": "関係",
+    "namePlaceholder": "山田太郎",
+    "phonePlaceholder": "+856-20-0000-0000",
+    "addButton": "追加する",
+    "relations": {
+      "가족": "家族",
+      "친구": "友人",
+      "가이드": "ガイド",
+      "동행자": "同行者",
+      "기타": "その他"
+    },
+    "laosNumbers": "ラオス緊急電話番号",
+    "numbers": {
+      "police": "警察",
+      "fireAmbulance": "消防/救急",
+      "touristPolice": "観光警察",
+      "koreanEmbassy": "韓国大使館",
+      "rideLaos": "Ride Laos 緊急"
+    },
+    "safetyGuide": "安全ガイド",
+    "tips": {
+      "helmet": "ヘルメットは必ず着用してください",
+      "rainy": "雨季（5～10月）は道路状況にご注意ください",
+      "fuel": "出発前に燃料を満タンにしてください",
+      "offlineMap": "オフライン地図を事前にダウンロードしてください",
+      "night": "夜間の走行はできるだけ避けてください",
+      "water": "十分な水と軽食を準備してください",
+      "documents": "パスポートのコピーと保険書類を携帯してください",
+      "hospital": "最寄りの病院の場所を事前に確認してください"
+    },
+    "sosSuccess": "SOSが送信されました。",
+    "sosFail": "SOS送信に失敗しました。直接電話してください。",
+    "sosMethod": {
+      "kakao": "KakaoTalkで",
+      "sms": "SMSで",
+      "share": "共有機能で",
+      "clipboard": "クリップボードにコピー"
+    }
+  },
+  "push": {
+    "title": "ツアー通知を受け取りますか？",
+    "description": "出発D-7、D-1リマインダーをお送りします",
+    "allow": "通知を許可",
+    "later": "後で"
   }
 }

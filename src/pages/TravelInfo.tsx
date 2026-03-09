@@ -4,11 +4,11 @@ import { ChevronLeft } from 'lucide-react'
 
 const CATEGORIES = [
   { id: 'weather', icon: '🌤️' },
-  { id: 'regions', icon: '🗺️' },
+  { id: 'rider-routes', icon: '🗺️' },
   { id: 'money', icon: '💰' },
   { id: 'telecom', icon: '📱' },
-  { id: 'bike-maintenance', icon: '🏍️' },
-  { id: 'roads', icon: '⛽' },
+  { id: 'bike', icon: '🏍️' },
+  { id: 'riding', icon: '⛽' },
   { id: 'medical', icon: '🏥' },
   { id: 'food', icon: '🍜' },
   { id: 'history', icon: '🏛️' },

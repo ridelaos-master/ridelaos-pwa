@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../hooks/useAuth'
 
 export function LoginButton() {
+  const { i18n } = useTranslation()
   const { user, loading, signInWithKakao, signOut } = useAuth()
 
   if (loading) {
@@ -25,6 +27,9 @@ export function LoginButton() {
       </div>
     )
   }
+
+  // 카카오 로그인은 한국어 환경에서만 표시
+  if (i18n.language !== 'ko') return null
 
   return (
     <button

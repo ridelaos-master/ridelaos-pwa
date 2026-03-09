@@ -20,11 +20,11 @@ const KAKAO_APP_KEY = import.meta.env.VITE_KAKAO_APP_KEY;
 
 // 라오스 긴급 전화번호
 export const LAOS_EMERGENCY_NUMBERS = [
-  { label: '경찰', number: '1191', icon: '🚔' },
-  { label: '소방/구급', number: '1190', icon: '🚑' },
-  { label: '관광경찰', number: '021-251-128', icon: '🏛️' },
-  { label: '한국대사관', number: '021-352-431', icon: '🇰🇷' },
-  { label: 'Ride Laos 긴급', number: '020-9999-0000', icon: '🏍️' },
+  { labelKey: 'safety.numbers.police', number: '1191', icon: '🚔' },
+  { labelKey: 'safety.numbers.fireAmbulance', number: '1190', icon: '🚑' },
+  { labelKey: 'safety.numbers.touristPolice', number: '021-251-128', icon: '🏛️' },
+  { labelKey: 'safety.numbers.koreanEmbassy', number: '021-352-431', icon: '🇰🇷' },
+  { labelKey: 'safety.numbers.rideLaos', number: '020-9999-0000', icon: '🏍️' },
 ];
 
 // ─── 유틸리티 ──────────────────────────────────

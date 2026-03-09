@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { useCourse } from '../hooks/useCourses'
 import { useTourDates, type TourDate } from '../hooks/useTourDates'
+import { COURSE_EN_DATA } from '../data/courseDataEn'
 import { MapboxMap } from '../components/MapboxMap'
 import OfflineMapManager from '../components/OfflineMapManager'
 import { supabase } from '../lib/supabase'
@@ -64,12 +66,13 @@ const DIFFICULTY_STYLES: Record<string, string> = {
   beginner: 'bg-green-500 text-white',
   intermediate: 'bg-amber-500 text-white',
   advanced: 'bg-red-500 text-white',
-}
-
-const DIFFICULTY_LABEL: Record<string, string> = {
-  beginner: '입문',
-  intermediate: '중급',
-  advanced: '고급',
+  '입문': 'bg-green-500 text-white',
+  '초급': 'bg-green-500 text-white',
+  '초중급': 'bg-amber-500 text-white',
+  '중급': 'bg-amber-500 text-white',
+  '중상급': 'bg-amber-500 text-white',
+  '상급': 'bg-red-500 text-white',
+  '최상급': 'bg-red-500 text-white',
 }
 
 /* ===== Review type & fetch (기존 유지) ===== */
@@ -128,6 +131,7 @@ function CoursePhoto({
   difficulty: string | null
   onBack: () => void
 }) {
+  const { t } = useTranslation()
   const [current, setCurrent] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
   const d = (difficulty ?? 'beginner') as string
@@ -159,7 +163,7 @@ function CoursePhoto({
         <span
           className={`absolute bottom-3 right-3 rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_STYLES[d] ?? DIFFICULTY_STYLES.beginner}`}
         >
-          {DIFFICULTY_LABEL[d] ?? '입문'}
+          {t(`courses.level.${d}`, d)}
         </span>
       </div>
     )
@@ -216,7 +220,7 @@ function CoursePhoto({
       <span
         className={`absolute bottom-3 right-3 rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_STYLES[d] ?? DIFFICULTY_STYLES.beginner}`}
       >
-        {DIFFICULTY_LABEL[d] ?? '입문'}
+        {t(`courses.level.${d}`, d)}
       </span>
     </div>
   )
@@ -627,6 +631,8 @@ function TourDateCard({
 export function CourseDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { i18n } = useTranslation()
+  const isEn = i18n.language === 'en'
   const tourDatesRef = useRef<HTMLElement>(null)
 
   const { data: course, isLoading: courseLoading, isError: courseError } = useCourse(id)
@@ -655,6 +661,12 @@ export function CourseDetail() {
     course?.details && typeof course.details === 'object' && Object.keys(course.details).length > 0
       ? (course.details as unknown as CourseDetails)
       : null
+
+  // EN 데이터
+  const enData = id ? COURSE_EN_DATA[id] : undefined
+  const courseName = isEn ? (enData?.name_en ?? course?.name_ko ?? '') : (course?.name_ko ?? '')
+  const courseTagline = isEn ? (enData?.tagline_en ?? null) : (course?.tagline ?? null)
+  const courseDescription = isEn ? (enData?.description_en ?? course?.description_ko ?? null) : (course?.description_ko ?? null)
 
   /* ----- Loading ----- */
   if (courseLoading && !course) {
@@ -702,8 +714,8 @@ export function CourseDetail() {
       <div className="px-4 pb-8">
         {/* ━━━ 2+3. 코스명 + 태그라인 + 레벨 + 기본정보 ━━━ */}
         <CourseBasicInfo
-          name={course.name_ko}
-          tagline={course.tagline ?? null}
+          name={courseName}
+          tagline={courseTagline}
           coreValue={details?.core_value ?? null}
           levelStars={details?.level_stars ?? null}
           levelLabel={details?.level_label ?? null}
@@ -764,11 +776,11 @@ export function CourseDetail() {
           </>
         ) : (
           /* ━━━ Fallback: details 없으면 기존 description_ko ━━━ */
-          course.description_ko && (
+          courseDescription && (
             <section className="mt-4 rounded-card bg-white p-4 shadow-card">
               <h2 className="font-bold text-rl-green">코스 소개</h2>
               <p className="mt-2 whitespace-pre-wrap text-sm text-gray-600">
-                {course.description_ko}
+                {courseDescription}
               </p>
             </section>
           )
@@ -829,7 +841,7 @@ export function CourseDetail() {
 
         {/* ━━━ 13. 리뷰 (S7-07 ReviewSection) ━━━ */}
         <div className="mt-4 mb-24 rounded-card bg-white p-4 shadow-card">
-          <ReviewSection courseId={id!} courseName={course.name_ko} />
+          <ReviewSection courseId={id!} courseName={courseName} />
         </div>
       </div>
     </div>
